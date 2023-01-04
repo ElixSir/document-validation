@@ -17,7 +17,7 @@ async function realiseProcess(){
   let source;
   let dsize = new cv.Size();
   //let source_immaculate = cv.imread('template');
-  let source_immaculate = cv.imread('canvasOutput11');
+  let source_immaculate = cv.imread('canvasOutput12');
   
 
   ///////////////////////////////////////////////////////
