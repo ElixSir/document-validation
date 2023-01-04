@@ -331,7 +331,6 @@ function findCorners(){
     let theHeight = (heightRight > heightLeft) ? heightRight : heightLeft;
 
     let finalDst = new cv.Mat();
-    let finalDestRotated = new cv.Mat();
 
     // row, col, type, array
     // For example, CV_8UC1 means a 8-bit single-channel array, CV_32FC2 means a 2-channel (complex) floating-point array.
@@ -354,16 +353,10 @@ function findCorners(){
     console.log('width:', document.getElementById('canvasOutput11').width)
     console.log('height:', document.getElementById('canvasOutput11').height)
     if(document.getElementById('canvasOutput11').height > document.getElementById('canvasOutput11').width) {
-        // finalDestRotated = finalDst.rotate(cv.ROTATE_90_COUNTERCLOCKWISE);
-        // Créez une matrice de rotation de 2x3
-        cv.rotate(finalDst, finalDestRotated, cv.ROTATE_90_COUNTERCLOCKWISE);
-        // const rotationMatrix = cv.getRotationMatrix2D(new cv.Point(finalDst.cols / 2, finalDst.rows / 2), 90, 1);
-
-        // Appliquez la transformation de rotation à l'image
-        // finalDestRotated = finalDst.warpAffine(rotationMatrix, new cv.Size(finalDst.cols, finalDst.rows));
+        cv.rotate(finalDst, finalDst, cv.ROTATE_90_COUNTERCLOCKWISE);
     }
     console.log("test1");
-    cv.imshow('canvasOutput12', finalDestRotated);
+    cv.imshow('canvasOutput12', finalDst);
     console.log("test2");
     realiseProcess();
     let button = document.getElementById('part2');
