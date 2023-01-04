@@ -1,4 +1,3 @@
-
 let imgElement = document.getElementById('imageSrc');
 let inputElement = document.getElementById('fileInput');
 
@@ -18,9 +17,6 @@ let resizeCoef = 1;
 let widthResized;
 let heightResized;
 
-
-let biggestContourHulled;
-
 // clone img
 let img2;
 let img3;
@@ -33,20 +29,17 @@ let hierarchy;
 
 let hull;
 
+let biggestContourHulled;
+
 let contourSelected;
 
 
 let contours_poly;
 let boundRect;
 
-// Cette valeur determine si oui ou non on considère le contour comme un rectangle
-// approximation très précise du contour = épsilon petit.
-// polygone approximé avec un nombre de points raisonnable = épsilon plus grand.
-let epsilon = 55;
+let green;
 
-/**
- * Valeur à partir de laquelle on considère qu'il y a trop de contour ou non
- */
+// Valeur à partir de laquelle on considère qu'il y a trop de contour
 let contourRatioThreshold = 1.5;
 let contourRatio;
 
@@ -54,16 +47,9 @@ inputElement.addEventListener('change', (e) => {
     imgElement.src = URL.createObjectURL(e.target.files[0]);
 }, false);
 
-function resizeImage() {
-    if(imgElement.width > imgElement.height){
-        resizeCoef=500/imgElement.height;
-    }
-    else {
-        resizeCoef=500/imgElement.width;
-    }
-
-    widthResized = imgElement.width*resizeCoef;
-    heightResized = imgElement.height*resizeCoef;
+imgElement.onload = function() {
+    initMats();
+    documentDetectionProcess();
 }
 
 function initMats() {
@@ -76,19 +62,11 @@ function initMats() {
 
     contours_poly = new cv.MatVector();
     boundRect = new cv.RectVector();
+
+    green = new cv.Scalar(0,255,0);
 }
 
-
-imgElement.onload = function() {
-    initMats();
-    globalProcessBasicRect();
-}
-
-
-/**
- * @brief Pareil que global process basic mais avec le bounding rect (estimation de rectangle)
- */
-function globalProcessBasicRect() {
+function documentDetectionProcess() {
     src = cv.imread(imgElement)
 
     contourRatio = getContoursRatio(src);
@@ -103,16 +81,26 @@ function globalProcessBasicRect() {
     // Create convex hulls from different contours
     createRect();
 
-    // Draw all hulls + draw the bigest hull
     findLargestContourAndHullRect();
 
     findCorners();
 }
 
+function resizeImage() {
+    if(imgElement.width > imgElement.height){
+        resizeCoef=500/imgElement.height;
+    }
+    else {
+        resizeCoef=500/imgElement.width;
+    }
+
+    widthResized = imgElement.width*resizeCoef;
+    heightResized = imgElement.height*resizeCoef;
+}
 
 /**
- * @brief Reformat image and finally create a gray image
- * @description Process to run before applying filters
+ * Reformat image and create a gray image
+ * Process to run before applying filters
  */
 function filterPreProcess() {
     // get original image
@@ -141,12 +129,12 @@ function filterPreProcess() {
     cv.imshow('canvasOutput4', gray);
 }
 
-
 /**
- * @brief Processus d'application de filtres sur l'image
+ * Process of applying filters on the image
  */
 function filtersProcess() {
     let ksize = new cv.Size(7, 7);
+    
     if(contourRatio > contourRatioThreshold) {
         cv.GaussianBlur(gray, gray, ksize, 0, 0, cv.BORDER_DEFAULT)
         cv.imshow('canvasOutput5', gray);
@@ -161,8 +149,8 @@ function filtersProcess() {
 }
 
 /**
- * Calcul un ratio du nombre de contour en fonction de la taille de l'image
- * @param {*} src image dont on doit detecter les contours
+ * Compute a ratio of the number of contours depending on the size of the image
+ * @param {*} src image on which we must detect the contours
  * @returns ratio
  */
 function getContoursRatio(src) {
@@ -190,9 +178,9 @@ function getContoursRatio(src) {
 }
 
 /**
- * @brief Créer des reactangle approximées pour chaque contours trouvés
- * @description approxPolyDP va permettre d'estimer un polygon quelconque en fonction du contour
- * Ensuite la fonction boundingRect() va permettre d'estimer un rectangle à partir du polygon
+ * Create a rectangle for each contour
+ * approxPolyDP() will allow to estimate a polygon from the contour
+ * Then boundingRect() will allow to estimate a rectangle from the polygon
  */
 function createRect() {
     if(contours_poly) { 
@@ -211,6 +199,8 @@ function createRect() {
 
         let rect = cv.boundingRect(contour_poly);
         boundRect.push_back(rect);
+
+        contour_poly.delete();
     }
 }
 
@@ -223,7 +213,6 @@ function findLargestContourAndHullRect() {
 
     for (let i = 0; i < contours.size(); ++i) {
         let contourPoly = new cv.Mat();
-        // cv.approxPolyDP(contours.get(i), contourPoly, 3, true);
         cv.convexHull(contours.get(i), contourPoly, false, true);
         contours_poly.push_back(contourPoly);
         let rect = cv.boundingRect(contourPoly);
@@ -231,7 +220,6 @@ function findLargestContourAndHullRect() {
         contourPoly.delete();
 
         let contourPolySelected = new cv.Mat();
-        // cv.approxPolyDP(contourSelected, contourPolySelected, 3, true);
         cv.convexHull(contourSelected, contourPolySelected, false, true);
         contours_poly.push_back(contourPolySelected);
         let rectSelected = cv.boundingRect(contourPolySelected);
@@ -249,44 +237,28 @@ function findLargestContourAndHullRect() {
     cv.cvtColor(img3, img3, cv.COLOR_BGR2RGB)
     cv.imshow('canvasOutput9', img3);
 
-    // crete a empty MatVector and put the bigest contour in it
-    let green = new cv.Scalar(0,255,0);
+    // Create an empty MatVector and put the bigest contour in it
     let contourVec = new cv.MatVector();
     contourVec.push_back(contourSelected);
 
-    // Draw the bigest contour hulled on the idcard
     let hull2 = new cv.MatVector();
     biggestContourHulled = new cv.Mat()
     biggestContourHulled2 = new cv.Mat()
     
-    // Ici le fait de hulled le contour me permet dans findcorner de le faire passé en tant que rectangle
-    // alors que le contour en lui même ne serait pas passé
-    // le mieux serait d'utiliser la fonction boudingRect (utilisé dans findcorner2) mais pour l'instant l'homographie findcroner2 ne marche pas.
-    // mais une fois ça résolut c'est good.
     cv.convexHull(contourSelected, biggestContourHulled, true, true);
     cv.approxPolyDP(biggestContourHulled, biggestContourHulled2, 100, true);
     hull2.push_back(biggestContourHulled2);
 
+    // Draw the bigest contour hulled on the image
     cv.drawContours(img5, hull2, 0, green, 5, cv.LINE_8, hierarchy, 0);
     cv.cvtColor(img5, img5, cv.COLOR_BGR2RGB, 0);
     cv.imshow('canvasOutput10', img5);
 }
 
 /**
- * Trouve les coins de la CNI et crop + homogrpahie et produit donc une image de la CNI rognée
+ * Find the corners of the document + crop + homography + produce the cropped image in a new canvas
  */
 function findCorners(){
-    // epsilon = .05 * cv.arcLength(biggestContourHulled, false);
-    // console.log('epsilon:', epsilon)
-    // let approx = new cv.Mat();
-    // let approx2 = new cv.Mat();
-    // cv.approxPolyDP(biggestContourHulled, approx, .05 * cv.arcLength(biggestContourHulled, false), true);
-    // cv.approxPolyDP(biggestContourHulled, approx, 100, true);
-    // cv.approxPolyDP(contourSelected, approx2, 3, true);
-    // let approx = cv.boundingRect(approx2);
-    // console.log('approx:', approx)
-
-    let green = new cv.Scalar(0,0,255);
     let contourVec = new cv.MatVector();
     contourVec.push_back(biggestContourHulled2);
     // Draw the bigest contour on the image
@@ -295,34 +267,31 @@ function findCorners(){
     cv.imshow('canvasOutput54', img4);
 
     if (biggestContourHulled2.rows == 4) {
-        console.log('Found a 4-corner approx');
         foundContour = biggestContourHulled2;
     }
     else{
-        console.log('No 4-corner large contour!');
+        console.error('error: Document not detected')
         return;
     }
 
-    //Find the corners
-    //foundCountour has 2 channels (seemingly x/y), has a depth of 4, and a type of 12.  Seems to show it's a CV_32S "type", so the valid data is in data32S??
+    // Find the corners
     let corner1 = new cv.Point(foundContour.data32S[0], foundContour.data32S[1]);
     let corner2 = new cv.Point(foundContour.data32S[2], foundContour.data32S[3]);
     let corner3 = new cv.Point(foundContour.data32S[4], foundContour.data32S[5]);
     let corner4 = new cv.Point(foundContour.data32S[6], foundContour.data32S[7]);
 
-    //Order the corners
+    // Order the corners
     let cornerArray = [{ corner: corner1 }, { corner: corner2 }, { corner: corner3 }, { corner: corner4 }];
-    //Sort by Y position (to get top-down)
+    // Sort by Y position (to get top-down)
     cornerArray.sort((item1, item2) => { return (item1.corner.y < item2.corner.y) ? -1 : (item1.corner.y > item2.corner.y) ? 1 : 0; }).slice(0, 5);
 
-    //Determine left/right based on x position of top and bottom 2
+    // Determine left/right based on x position of top and bottom 2
     let tl = cornerArray[0].corner.x < cornerArray[1].corner.x ? cornerArray[0] : cornerArray[1];
     let tr = cornerArray[0].corner.x > cornerArray[1].corner.x ? cornerArray[0] : cornerArray[1];
     let bl = cornerArray[2].corner.x < cornerArray[3].corner.x ? cornerArray[2] : cornerArray[3];
     let br = cornerArray[2].corner.x > cornerArray[3].corner.x ? cornerArray[2] : cornerArray[3];
 
     // Calculate the max width/height
-    // ici on trouve la taille de chaque coté du rectangle en calculant l'hyptothénuse grâce au coordonées des points 
     let widthBottom = Math.hypot(br.corner.x - bl.corner.x, br.corner.y - bl.corner.y);
     let widthTop = Math.hypot(tr.corner.x - tl.corner.x, tr.corner.y - tl.corner.y);
     let theWidth = (widthBottom > widthTop) ? widthBottom : widthTop;
@@ -337,33 +306,24 @@ function findCorners(){
     // let finalDestCoords = cv.matFromArray(4, 1, cv.CV_32FC2, [0, 0, theWidth - 1, 0, theWidth - 1, theHeight - 1, 0, theHeight - 1]);
     // ?, ?, taille haut, ?, taille bas, taille droite, ?, taille gauche
     let finalDestCoords = cv.matFromArray(4, 1, cv.CV_32FC2, [0, 0, theWidth/resizeCoef, 0, theWidth/resizeCoef, theHeight/resizeCoef, 0, theHeight/resizeCoef]);
-    console.log('finalDestCoords:', finalDestCoords)
     let srcCoords = cv.matFromArray(4, 1, cv.CV_32FC2, [tl.corner.x/resizeCoef, tl.corner.y/resizeCoef, tr.corner.x/resizeCoef, tr.corner.y/resizeCoef, br.corner.x/resizeCoef, br.corner.y/resizeCoef, bl.corner.x/resizeCoef, bl.corner.y/resizeCoef]);
     let dsize = new cv.Size(theWidth/resizeCoef, theHeight/resizeCoef);
     
-    // l'assemblage des coordonnées (des coins) reel de la carte sur l'image ET des dimension réel de la carte (distance entre les coorddonées)
-    // permet de nous fournir un array de perspective
+    // corners + dimentions = perspective
     let M = cv.getPerspectiveTransform(srcCoords, finalDestCoords)
     
-    // on utilise cet array de perspective dans cette fonction, ce ui nous permet de faire l'homographie
+    // Apply perspective transformation
     cv.warpPerspective(imgOriginal, finalDst, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
     cv.cvtColor(finalDst, finalDst, cv.COLOR_BGR2RGB, 0);
     cv.imshow('canvasOutput11', finalDst);
-    // document.getElementById('canvasOutput11').width
-    console.log('width:', document.getElementById('canvasOutput11').width)
-    console.log('height:', document.getElementById('canvasOutput11').height)
     if(document.getElementById('canvasOutput11').height > document.getElementById('canvasOutput11').width) {
         cv.rotate(finalDst, finalDst, cv.ROTATE_90_COUNTERCLOCKWISE);
     }
-    console.log("test1");
     cv.imshow('canvasOutput12', finalDst);
-    console.log("test2");
     realiseProcess();
     let button = document.getElementById('part2');
-    console.log(button);
     button.click;
 }
-
 
 function onOpenCvReady() {
   document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
