@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+    
+</head>
+<body>
+  <!--<script src="opencv.js"></script>-->
+<script src='https://unpkg.com/tesseract.js@4.0.0/dist/tesseract.min.js'></script>
+  
+<h2>Hello OpenCV.js</h2>
+<p id="status">OpenCV.js is loading...</p>
+<div>
+  <div class="inputoutput">
+    <img id="imageSrc" alt="No Image" style="display: none;"/>
+    <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
+  </div>
+  <div class="inputoutput">
+    <canvas id="canvasOutput2" ></canvas>
+    <div class="caption">canvasOutput2</div>
+  </div>
+  <div class="inputoutput" >
+    <canvas id="canvasOutput4" ></canvas>
+    <div class="caption">canvasOutput4</div>
+  </div>
+  <div class="inputoutput">
+    <canvas id="canvasOutput5" ></canvas>
+    <div class="caption">canvasOutput5</div>
+  </div>
+  <div class="inputoutput">
+    <canvas id="canvasOutput54" ></canvas>
+    <div class="caption">canvasOutput54</div>
+  </div>
+  <div class="inputoutput">
+    <canvas id="canvasOutput6" ></canvas>
+    <div class="caption">canvasOutput6</div>
+  </div>
+  <div class="inputoutput">
+    <canvas id="canvasOutput7" ></canvas>
+    <div class="caption">canvasOutput7</div>
+  </div>
+  <div class="inputoutput">
+    <canvas id="canvasOutput8" ></canvas>
+    <div class="caption">canvasOutput8</div>
+  </div>
+  <div class="inputoutput">
+    <canvas id="canvasOutput9" ></canvas>
+    <div class="caption">canvasOutput9</div>
+  </div>
+  <div class="inputoutput">
+    <canvas id="canvasOutput10" ></canvas>
+    <div class="caption">canvasOutput10</div>
+  </div>
+  <div class="inputoutput">
+    <canvas id="canvasOutput11" ></canvas>
+    <div class="caption">canvasOutput11</div>
+  </div>
+  <div class="inputoutput">
+    <canvas id="canvasOutput12" ></canvas>
+    <div class="caption">canvasOutput12</div>
+  </div>
+</div>
+
+
+  <img id="template" src="./image_nette_template.jpg" >
+
+  <p>
+    <button id="part2"onclick="realiseProcess();">Begin recognition</button>
+  </p>
+
+
+   <div id="CNI_FR_V1_Photo">
+
+    <img id="bande_haut_bleue_V1_Photo" src="./CNI_FR_V1_Photo/bande_haut_bleue.jpg" >
+    <img id="nationnalite_fr_V1_Photo" src="./CNI_FR_V1_Photo/nationnalite_fr.jpg" >
+    <img id="ne_le_V1_Photo" src="./CNI_FR_V1_Photo/ne_le.jpg" hidden>
+    <img id="nom_V1_Photo" src="./CNI_FR_V1_Photo/nom.jpg" hidden>
+    <img id="numero_CNI_V1_Photo" src="./CNI_FR_V1_Photo/numero_CNI.jpg" hidden>
+    <!--<img id="signature_V1_Photo" src="./CNI_FR_V1_Photo/signature.jpg" hidden>-->
+    <img id="bas_V1_Photo" src="./CNI_FR_V1_Photo/bas.jpg" hidden>
+
+   </div>
+
+   <div id="CNI_FR_V2_Photo">
+
+    <img id="date_expiration_V2_Photo" src="./CNI_FR_V2_Photo/date_expiration.jpg" hidden>
+    <img id="date_naissance_V2_Photo" src="./CNI_FR_V2_Photo/date_naissance.jpg" hidden>
+    <img id="lieu_naissance_V2_Photo" src="./CNI_FR_V2_Photo/lieu_naissance.jpg" hidden>
+    <img id="nationalite_V2_Photo" src="./CNI_FR_V2_Photo/nationalite.jpg" hidden>
+    <img id="nom_V2_Photo" src="./CNI_FR_V2_Photo/nom.jpg" hidden>
+    <img id="numero_document_V2_Photo" src="./CNI_FR_V2_Photo/numero_document.jpg" hidden>
+    <img id="sexe_V2_Photo" src="./CNI_FR_V2_Photo/sexe.jpg" hidden>
+    <img id="carte_nationale_V2_Photo" src="./CNI_FR_V2_Photo/carte_nationale.jpg" hidden>
+    <img id="prenom_V2_Photo" src="./CNI_FR_V2_Photo/prenom.jpg" hidden>
+    <img id="republique_V2_Photo" src="./CNI_FR_V2_Photo/republique.jpg" hidden>
+
+   </div>
+   
+  
+   <canvas id="canvasFinal1" ></canvas>
+   <canvas id="canvasFinal2" ></canvas>
+//TODO : changer le nom des canvas
+   <canvas id="canvasAffichage1" ></canvas>
+   <canvas id="canvasAffichage2" ></canvas>
+   <canvas id="canvasAffichage3" ></canvas>
+   <canvas id="canvasAffichage4" ></canvas>
+   <canvas id="canvasAffichage5" ></canvas>
+   <canvas id="canvasAffichage6" ></canvas>
+   <canvas id="canvasAffichage7" ></canvas>
+   <canvas id="canvasAffichage8" ></canvas>
+   <canvas id="canvasAffichage9" ></canvas>
+   <canvas id="canvasAffichage10" ></canvas>
+   <canvas id="canvasAffichage11" ></canvas>
+   <canvas id="canvasAffichage12" ></canvas>
+   <canvas id="canvasAffichage13" ></canvas>
+   <canvas id="canvasAffichage14" ></canvas>
+   <canvas id="canvasAffichage15" ></canvas>
+   <canvas id="canvasAffichage16" ></canvas>
+   <canvas id="canvasAffichage17" ></canvas>
+   
+</body>
+<script src="test1.js"></script>
+<script type="text/javascript" src="libs/opencv-4.7.0.js"></script>
+<script type="text/javascript" onload="onOpenCvReady();" src="./js/processing.js"></script>
+</script>
+
+
+</html>
