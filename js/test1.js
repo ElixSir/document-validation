@@ -134,6 +134,9 @@ async function realiseProcess(){
       canvas.style.display = 'block';
     }
   }
+  else{
+    console.log("La photo n'est pas valide");
+  }
   end = new Date();
 
   console.log(end-start);

@@ -320,9 +320,12 @@ function findCorners(){
         cv.rotate(finalDst, finalDst, cv.ROTATE_90_COUNTERCLOCKWISE);
     }
     cv.imshow('canvasOutput12', finalDst);
-    realiseProcess();
-    let button = document.getElementById('part2');
-    button.click;
+    try {
+        realiseProcess();
+    } catch (error) {
+        console.log("la photo n'est pas valide");
+    }
+    
 }
 
 function onOpenCvReady() {
