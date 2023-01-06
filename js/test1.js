@@ -24,7 +24,7 @@ async function realiseProcess(){
 
   //CNI_FR_V1_Photo
   
-  console.log("\nCNI_FR_V1_Photo\n");
+  //console.log("\nCNI_FR_V1_Photo\n");
 
    
   source = source_immaculate.clone();
@@ -69,7 +69,7 @@ async function realiseProcess(){
 
   if(V1 == false){
     
-    console.log("\nCNI_FR_V2_Photo\n");
+    //console.log("\nCNI_FR_V2_Photo\n");
 
     source = source_immaculate.clone();
     //nbImgTot = 10;
@@ -124,12 +124,12 @@ async function realiseProcess(){
   if(V1 == true || V2 == true){
     console.log("La photo est valide");
     if (V1 == true){
-      console.log("Version 1");
+      //console.log("Version 1");
       const canvas = document.getElementById('canvasFinal1');
       canvas.style.display = 'block';
     }
     else{
-      console.log("Version 2");
+      //console.log("Version 2");
       const canvas = document.getElementById('canvasFinal2');
       canvas.style.display = 'block';
     }
@@ -145,10 +145,14 @@ async function matchTemplateDraw(width, source, templ, name_img, version)
   compteurImage++;
   source_gray = new cv.Mat();
   templ_gray = new cv.Mat();
+  source_black = new cv.Mat();
+  templ_black = new cv.Mat();
   let dest = new cv.Mat();
   let M = new cv.Mat();
   cv.cvtColor(source, source_gray, cv.COLOR_BGR2GRAY, 0);
   cv.cvtColor(templ, templ_gray, cv.COLOR_BGR2GRAY, 0);
+  cv.threshold(source, source_black, 80, 255, cv.THRESH_BINARY);
+  cv.threshold(templ, templ_black, 80, 255, cv.THRESH_BINARY);
 
   try {
     cv.matchTemplate(source_gray, templ_gray, dest, cv.TM_CCOEFF_NORMED, M);
@@ -158,7 +162,7 @@ async function matchTemplateDraw(width, source, templ, name_img, version)
   }
 
   let result = cv.minMaxLoc(dest, M);
-  console.log(result.maxVal*100);
+  //console.log(result.maxVal*100);
   let maxPoint = result.maxLoc;
   let color = new cv.Scalar(255, 0, 0, 255);
   let point = new cv.Point(maxPoint.x + templ.cols, maxPoint.y + templ.rows);
@@ -169,7 +173,6 @@ async function matchTemplateDraw(width, source, templ, name_img, version)
   dst = source.roi(rectangle);
   bool = await OCR_traitement_image(dst, width, name_img, version); 
   cv.rectangle(source, maxPoint, point, color, 2, cv.LINE_8, 0);
-  console.log(bool);
   return bool;
 } 
 
@@ -231,7 +234,6 @@ function applyFilterV1(dst, name_img)
       cv.threshold(dst, dst, 80, 255, cv.THRESH_BINARY);
       break;*/
     default:
-      console.log("default");
       break;
   }
 
@@ -252,18 +254,19 @@ async function OCR_Image(image, name_img, version)
     await worker.loadLanguage('fra');
     await worker.initialize('fra');
     const { data: { text } } = await worker.recognize(image);
-    console.log(name_img);
+    //DEBUG
+    /* console.log(name_img);
     console.log(image);
-    console.log("texte OCR : " + text);
+    console.log("texte OCR : " + text); */
     await worker.terminate();
     if(validatorOCR(text, name_img, version))
     {
-      console.log("OCR OK");
+      //console.log("OCR OK");
       compteur_OCR++;
       bool = true;
     }
     else{
-      console.log("erreur OCR");
+      //console.log("erreur OCR");
       bool = false;
     }
     
@@ -342,11 +345,14 @@ function validate(text, pattern)
     }
     
   }
-  console.log("lettres non trouvees : " + stringPattern);
-  console.log(compteur +"/"+pattern.length);
 
   diffLongueur = Math.abs(text.length - pattern.length);
-  console.log("Différence de longueur : "+diffLongueur);
+
+  // DEBUG
+  /* console.log("lettres non trouvees : " + stringPattern);
+  console.log(compteur +"/"+pattern.length);
+  console.log("Différence de longueur : "+diffLongueur); */
+
   let seuilCaracteresTrouves = pattern.length*0.5;
   let seuildiffLongueur = pattern.length*0.5;
   if(compteur >= seuilCaracteresTrouves && diffLongueur < seuildiffLongueur)//Il faut définir à partir de quel pourcentage de caractères concordants on valide
@@ -362,10 +368,11 @@ function validate(text, pattern)
 function resetCompteur(version)
 {
   let pourcentageReussite = (compteur_OCR/nbImgTot)*100;
-  console.log("pourcentage de reussite : "+pourcentageReussite+"%");
   let champCache = nbImgTot-compteur_OCR;
-  console.log("Nombre de champs caches : "+champCache);
-
+  //DEBUG
+  /* console.log("pourcentage de reussite : "+pourcentageReussite+"%");
+  console.log("Nombre de champs caches : "+champCache); */
+ 
   compteur_OCR = 0;
 
   if(pourcentageReussite == 100)
