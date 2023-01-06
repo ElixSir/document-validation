@@ -270,7 +270,7 @@ function findCorners(){
         foundContour = biggestContourHulled2;
     }
     else{
-        console.error('error: Document not detected')
+        console.error("la photo n'est pas valide");
         return;
     }
 
@@ -323,7 +323,7 @@ function findCorners(){
     try {
         realiseProcess();
     } catch (error) {
-        console.log("la photo n'est pas valide");
+        console.error("la photo n'est pas valide");
     }
     
 }
