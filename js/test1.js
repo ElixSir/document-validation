@@ -11,7 +11,9 @@ var V2 = false;
 async function realiseProcess(){
   
   start = new Date();
-  
+  let button_chargement_titre = document.getElementById('chargement_titre');
+  let button_chargement = document.getElementById('chargement');
+  let button_resultat = document.getElementById('resultat');
   let width_source = 0;
   let height_source = 0;
   let source;
@@ -34,18 +36,27 @@ async function realiseProcess(){
   dsize = new cv.Size(width_source, height_source);
   cv.resize(source, source, dsize, 0, 0, cv.INTER_AREA);
 
- 
+  button_chargement_titre.textContent = "Début test première version";
   try {
     if(await matchTemplateDraw(900, source, cv.imread('bande_haut_bleue_V1_Photo'), "templ_bande_haut_bleue", "V1_Photo"))
     {
+      button_chargement.textContent = "Il reste 5 champs à traiter";
       if(await matchTemplateDraw(300, source, cv.imread('nationnalite_fr_V1_Photo'), "templ_nationnalite_fr", "V1_Photo"))
       {
+        button_chargement.textContent = "Il reste 4 champs à traiter";
+
         if(await matchTemplateDraw(600, source, cv.imread('ne_le_V1_Photo'), "templ_ne_le", "V1_Photo"))
         {
+          button_chargement.textContent = "Il reste 3 champs à traiter";
+
           if(await matchTemplateDraw(300, source, cv.imread('nom_V1_Photo'), "templ_nom", "V1_Photo"))
           {
+            button_chargement.textContent = "Il reste 2 champs à traiter";
+
             if(await matchTemplateDraw(300, source, cv.imread('numero_CNI_V1_Photo'), "templ_numero_CNI", "V1_Photo"))
             {
+              button_chargement.textContent = "Il reste 1 champs à traiter";
+              
               await matchTemplateDraw(300, source, cv.imread('bas_V1_Photo'), "bas", "V1_Photo");
             }
           }
@@ -67,6 +78,7 @@ async function realiseProcess(){
 
   //CNI_FR_V2_Photo
 
+  button_chargement_titre.textContent = "Début test deuxième version";
   if(V1 == false){
     
     //console.log("\nCNI_FR_V2_Photo\n");
@@ -82,12 +94,17 @@ async function realiseProcess(){
     try {
       if(await matchTemplateDraw(900, source, cv.imread('date_expiration_V2_Photo'), "date_expiration", "V2_Photo"))
       {
+        button_chargement.textContent = "Il reste 4 champs à traiter";
+        
         if(await matchTemplateDraw(300, source, cv.imread('date_naissance_V2_Photo'), "date_naissance", "V2_Photo"))
         {
+          button_chargement.textContent = "Il reste 3 champs à traiter";
           if(await matchTemplateDraw(300, source, cv.imread('numero_document_V2_Photo'), "numero_document", "V2_Photo"))
           {
+            button_chargement.textContent = "Il reste 2 champs à traiter";
             if(await matchTemplateDraw(300, source, cv.imread('prenom_V2_Photo'), "prenom", "V2_Photo"))
             {
+              button_chargement.textContent = "Il reste 1 champs à traiter";
               await matchTemplateDraw(300, source, cv.imread('republique_V2_Photo'), "republique", "V2_Photo");
             }
           }
@@ -129,7 +146,7 @@ async function realiseProcess(){
     console.log("La photo n'est pas valide");
   }
   end = new Date();
-
+  button_resultat.textContent = "Temps de traitement : " + (end-start) + " ms";
   console.log(end-start);
 }
 
