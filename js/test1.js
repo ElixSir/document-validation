@@ -8,7 +8,7 @@ var V2 = false;
 
 
 
-async function realiseProcess(){
+async function realiseProcess(source_immaculate){
   
   start = new Date();
   let button_chargement_titre = document.getElementById('chargement_titre');
@@ -19,17 +19,12 @@ async function realiseProcess(){
   let height_source = 0;
   let source;
   let dsize = new cv.Size();
-  //let source_immaculate = cv.imread('template');
-  let source_immaculate = cv.imread('canvasOutput12');
   
 
   ///////////////////////////////////////////////////////
 
   //CNI_FR_V1_Photo
   
-  //console.log("\nCNI_FR_V1_Photo\n");
-
-   
   source = source_immaculate.clone();
   nbImgTot = 6;
   width_source = 937;
@@ -64,9 +59,6 @@ async function realiseProcess(){
         }
       }
     }
-    
-    // trop dur, trop dépendant de la luminosité
-    //await matchTemplateDraw(300, source, cv.imread('signature_V1_Photo'), "templ_signature", "V1_Photo");
   } catch (error) {
     console.error(error);
   }
@@ -82,8 +74,6 @@ async function realiseProcess(){
   button_chargement_titre.textContent = "Début test deuxième version";
   if(V1 == false){
     
-    //console.log("\nCNI_FR_V2_Photo\n");
-
     source = source_immaculate.clone();
     //nbImgTot = 10;
     nbImgTot = 5;
@@ -121,7 +111,7 @@ async function realiseProcess(){
   }
 
   ///////////////////////////////////////////////////////
-  //juste pour lui car on ne passe par matchTemplateDraw, pour afficher sur un emplacement canvas valide sans override une image
+  //Il faut incrémenter compteurImage pour afficher sur un emplacement canvas valide sans override une image
   compteurImage++;
   try {
     await OCR_traitement_image(source_immaculate, 900);
@@ -134,12 +124,10 @@ async function realiseProcess(){
     console.log("La photo est valide");
     button_valide.textContent = "La photo est valide";
     if (V1 == true){
-      //console.log("Version 1");
       const canvas = document.getElementById('canvasFinal1');
       canvas.style.display = 'block';
     }
     else{
-      //console.log("Version 2");
       const canvas = document.getElementById('canvasFinal2');
       canvas.style.display = 'block';
     }
@@ -244,9 +232,6 @@ function applyFilterV1(dst, name_img)
     case "templ_numero_CNI":
       cv.threshold(dst, dst, 80, 255, cv.THRESH_BINARY | cv.THRESH_OTSU);
       break;
-    /*case "templ_signature":
-      cv.threshold(dst, dst, 80, 255, cv.THRESH_BINARY);
-      break;*/
     default:
       break;
   }
@@ -261,7 +246,6 @@ async function OCR_Image(image, name_img, version)
   const { createWorker } = Tesseract;
 
   const worker = await createWorker({
-    //logger: m => console.log(m), // Add logger here
   });
 
   await (async () => {
@@ -306,8 +290,6 @@ function validatorOCR(text, name_img, version)
         return validate(text, "CARTE NATIONALE D'IDENTITÉ N° :")
       case "bas":
         return validate(text, "<<<<")
-      /* case "templ_signature":
-        return validate(text, "Signature\ndu titulaire :") */
       default:
         return false;
     }

@@ -113,7 +113,7 @@ function filterPreProcess() {
 
     // resize img
     cv.resize(src, img, dsize, 0, 0, cv.INTER_AREA);
-    cv.imshow('canvasOutput2', img);
+    //cv.imshow('canvasOutput2', img);
 
     // RGB to BGR
     cv.cvtColor(img, img, cv.COLOR_RGB2BGR)
@@ -126,7 +126,7 @@ function filterPreProcess() {
 
     // BGR to GRAY levels
     cv.cvtColor(img, gray, cv.COLOR_BGR2GRAY)
-    cv.imshow('canvasOutput4', gray);
+    //cv.imshow('canvasOutput4', gray);
 }
 
 /**
@@ -137,11 +137,11 @@ function filtersProcess() {
     
     if(contourRatio > contourRatioThreshold) {
         cv.GaussianBlur(gray, gray, ksize, 0, 0, cv.BORDER_DEFAULT)
-        cv.imshow('canvasOutput5', gray);
+        //cv.imshow('canvasOutput5', gray);
     }
 
     cv.Canny(gray, edged, 100, 0)
-    cv.imshow('canvasOutput7', edged);
+    //cv.imshow('canvasOutput7', edged);
 
     contours = new cv.MatVector();
     hierarchy = new cv.Mat();
@@ -235,7 +235,7 @@ function findLargestContourAndHullRect() {
     }
 
     cv.cvtColor(img3, img3, cv.COLOR_BGR2RGB)
-    cv.imshow('canvasOutput9', img3);
+    //cv.imshow('canvasOutput9', img3);
 
     // Create an empty MatVector and put the bigest contour in it
     let contourVec = new cv.MatVector();
@@ -252,7 +252,7 @@ function findLargestContourAndHullRect() {
     // Draw the bigest contour hulled on the image
     cv.drawContours(img5, hull2, 0, green, 5, cv.LINE_8, hierarchy, 0);
     cv.cvtColor(img5, img5, cv.COLOR_BGR2RGB, 0);
-    cv.imshow('canvasOutput10', img5);
+    //cv.imshow('canvasOutput10', img5);
 }
 
 /**
@@ -264,7 +264,7 @@ function findCorners(){
     // Draw the bigest contour on the image
     cv.drawContours(img4, contourVec, 0, green, 3, cv.LINE_8, hierarchy, 0);
     cv.cvtColor(img4, img4, cv.COLOR_BGR2RGB)
-    cv.imshow('canvasOutput54', img4);
+    //cv.imshow('canvasOutput54', img4);
 
     if (biggestContourHulled2.rows == 4) {
         foundContour = biggestContourHulled2;
@@ -316,13 +316,13 @@ function findCorners(){
     // Apply perspective transformation
     cv.warpPerspective(imgOriginal, finalDst, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
     cv.cvtColor(finalDst, finalDst, cv.COLOR_BGR2RGB, 0);
-    cv.imshow('canvasOutput11', finalDst);
+    //cv.imshow('canvasOutput11', finalDst);
     if(document.getElementById('canvasOutput11').height > document.getElementById('canvasOutput11').width) {
         cv.rotate(finalDst, finalDst, cv.ROTATE_90_COUNTERCLOCKWISE);
     }
-    cv.imshow('canvasOutput12', finalDst);
+    //cv.imshow('canvasOutput12', finalDst);
     try {
-        realiseProcess();
+        realiseProcess(finalDst);
     } catch (error) {
         console.error("la photo n'est pas valide");
         button_valide.textContent = "La photo n'est pas valide";
