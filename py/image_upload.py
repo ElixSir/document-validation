@@ -1,4 +1,4 @@
-from js import document, console, Uint8Array, performance
+from js import document, console, Uint8Array, performance, createObject
 from js import processSprintTwo, resetProcessSprintOne, resetOutput
 
 import io
@@ -166,9 +166,9 @@ def _estimate_result(sharpness_result, seuil_haut, seuil_moyen):
 async def _upload_file_and_process(e):
     
     # file uploaded
-    console.log("Attempted file upload: " + e.target.value)
-    file_list = e.target.files
-    first_item = file_list.item(0)
+    # console.log("Attempted file upload: " + e.target.value)
+    # file_list = e.target.files
+    # first_item = file_list.item(0)
 
     # start of the scoring part 
     start = performance.now()  
@@ -176,7 +176,8 @@ async def _upload_file_and_process(e):
     iqa = DOM()
 
     # Get the data from the files arrayBuffer as an array of unsigned bytes
-    array_buf = Uint8Array.new(await first_item.arrayBuffer())
+    # array_buf = Uint8Array.new(await first_item.arrayBuffer())
+    array_buf = Uint8Array.new(await e.arrayBuffer())
 
     # BytesIO wants a bytes-like object, so convert to bytearray first
     bytes_list = bytearray(array_buf) 
@@ -231,23 +232,30 @@ async def _upload_file_and_process(e):
     
     quality_level = _estimate_result(estimation, seuil_haut, seuil_moyen) # 1 - 2 - 3 
 
-    return estimation, quality_level, first_item, exec_time
+    # return estimation, quality_level, first_item, exec_time
+    return estimation, quality_level, e, exec_time
 
     
 async def _processing(e):
     
     resetOutput()  
 
+    console.log(e)
+    
+    # console.log(e.getImageData())
+
     estimation, quality_lvl, img_src, exec_time = await _upload_file_and_process(e)
     
     if document.getElementById("output").checked == True:
         display._display_output(estimation, quality_lvl, img_src, exec_time)
     
-    if quality_lvl == 1: 
-        processSprintTwo()
-    else:
-        resetProcessSprintOne()
+    # if quality_lvl == 1: 
+    #     processSprintTwo()
+    # else:
+    #     resetProcessSprintOne()
 
 
-upload_file = ffi.create_proxy(_processing)
-#document.getElementById("file-upload").addEventListener("change", upload_file)
+# upload_file = ffi.create_proxy(_processing)
+# document.getElementById("file-upload").addEventListener("change", upload_file)
+
+createObject(ffi.create_proxy(globals()), "pyodideGlobals")

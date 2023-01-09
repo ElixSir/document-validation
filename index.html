@@ -19,9 +19,6 @@
     files = ['display.py']
   </py-config>
 
-  <p id="status">OpenCV.js is loading...</p>
-
-
     <img id="imageSrc" alt="No Image" style="display: none;"/>
     <label for="img-upload"> <b>Estimation de la qualité de l'image (PNG) : </b></label> 
     <input name="img-upload" type="file" id="file-upload">
@@ -34,7 +31,7 @@
     <br>
 
     <label for="resize">Do you want to resize the image? </label>
-    <input type="checkbox" id="resize" name="resize" checked>
+    <input type="checkbox" id="resize" name="resize">
 
     <input type="number" id="resize_value" value="800">
 
@@ -63,9 +60,7 @@
     <div name="img-uploaded" id="output_upload"></div>
    
     
-
-
-
+    <p id="status">OpenCV.js is loading...</p>
 
   <h2 id="chargement_titre"></h2>
   <h3 id="chargement"></h3>
@@ -118,10 +113,10 @@
       <canvas id="canvasOutput11" ></canvas>
       <div class="caption">canvasOutput11</div>
     </div>
-    <!-- <div class="inputoutput">
+    <div class="inputoutput">
       <canvas id="canvasOutput12" ></canvas>
       <div class="caption">canvasOutput12</div>
-    </div> -->
+    </div>
   </div>
 
   <div id="CNI_FR_V1_Photo">
