@@ -93,15 +93,6 @@ async function realiseProcess(){
           }
         }
       }
-      /* await matchTemplateDraw(300, source, cv.imread('date_naissance_V2_Photo'), "date_naissance", "V2_Photo");
-      await matchTemplateDraw(300, source, cv.imread('numero_document_V2_Photo'), "numero_document", "V2_Photo");
-      await matchTemplateDraw(300, source, cv.imread('prenom_V2_Photo'), "prenom", "V2_Photo");
-      await matchTemplateDraw(300, source, cv.imread('republique_V2_Photo'), "republique", "V2_Photo"); */
-      //await matchTemplateDraw(600, source, cv.imread('lieu_naissance_V2_Photo'), "lieu_naissance", "V2_Photo");
-      //await matchTemplateDraw(300, source, cv.imread('nationalite_V2_Photo'), "nationalite", "V2_Photo");
-      //await matchTemplateDraw(300, source, cv.imread('nom_V2_Photo'), "nom", "V2_Photo");
-      //await matchTemplateDraw(300, source, cv.imread('sexe_V2_Photo'), "sexe", "V2_Photo");
-      //await matchTemplateDraw(300, source, cv.imread('carte_nationale_V2_Photo'), "carte_nationale", "V2_Photo");
     } catch (error) {
       console.error(error);
     }
