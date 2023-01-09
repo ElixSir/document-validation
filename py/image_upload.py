@@ -250,4 +250,4 @@ async def _processing(e):
 
 
 upload_file = ffi.create_proxy(_processing)
-document.getElementById("file-upload").addEventListener("change", upload_file)
+#document.getElementById("file-upload").addEventListener("change", upload_file)

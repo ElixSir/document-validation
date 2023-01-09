@@ -47,9 +47,9 @@ inputElement.addEventListener('change', (e) => {
     imgElement.src = URL.createObjectURL(e.target.files[0]);
 }, false);
 
-// imgElement.onload = function() {
-//     documentDetectionProcess();
-// }
+imgElement.onload = function() {
+    documentDetectionProcess();
+}
 
 function initMats() {
     gray = new cv.Mat();

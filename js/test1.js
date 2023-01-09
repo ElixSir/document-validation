@@ -145,6 +145,8 @@ async function realiseProcess(source_immaculate){
   end = new Date();
   button_resultat.textContent = "Temps de traitement : " + (end-start) + " ms";
   console.log(end-start);
+
+  // Robin executer fonction
 }
 
 async function matchTemplateDraw(width, source, templ, name_img, version)
