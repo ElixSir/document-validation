@@ -48,7 +48,6 @@ inputElement.addEventListener('change', (e) => {
 }, false);
 
 imgElement.onload = function() {
-    initMats();
     documentDetectionProcess();
 }
 
@@ -67,6 +66,8 @@ function initMats() {
 }
 
 function documentDetectionProcess() {
+
+    initMats();
     src = cv.imread(imgElement)
 
     contourRatio = getContoursRatio(src);
