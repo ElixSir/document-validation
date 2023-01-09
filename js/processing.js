@@ -271,6 +271,7 @@ function findCorners(){
     }
     else{
         console.error("la photo n'est pas valide");
+        button_valide.textContent = "La photo n'est pas valide";
         return;
     }
 
@@ -324,6 +325,7 @@ function findCorners(){
         realiseProcess();
     } catch (error) {
         console.error("la photo n'est pas valide");
+        button_valide.textContent = "La photo n'est pas valide";
     }
     
 }

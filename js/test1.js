@@ -14,6 +14,7 @@ async function realiseProcess(){
   let button_chargement_titre = document.getElementById('chargement_titre');
   let button_chargement = document.getElementById('chargement');
   let button_resultat = document.getElementById('resultat');
+  let button_valide = document.getElementById('valide');
   let width_source = 0;
   let height_source = 0;
   let source;
@@ -131,6 +132,7 @@ async function realiseProcess(){
 
   if(V1 == true || V2 == true){
     console.log("La photo est valide");
+    button_valide.textContent = "La photo est valide";
     if (V1 == true){
       //console.log("Version 1");
       const canvas = document.getElementById('canvasFinal1');
@@ -144,6 +146,7 @@ async function realiseProcess(){
   }
   else{
     console.log("La photo n'est pas valide");
+    button_valide.textContent = "La photo n'est pas valide";
   }
   end = new Date();
   button_resultat.textContent = "Temps de traitement : " + (end-start) + " ms";
