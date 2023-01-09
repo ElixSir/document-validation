@@ -9,7 +9,11 @@ var V2 = false;
 
 
 async function realiseProcess(source_immaculate){
-  
+  compteurImage = 0;
+  compteur_OCR = 0;
+  nbImgTot = 0;
+  V1 = false;
+  V2 = false;
   start = new Date();
   let button_chargement_titre = document.getElementById('chargement_titre');
   let button_chargement = document.getElementById('chargement');
@@ -63,7 +67,7 @@ async function realiseProcess(source_immaculate){
     console.error(error);
   }
   
-  cv.imshow('canvasFinal1', source);
+  //cv.imshow('canvasFinal1', source);
   
   resetCompteur("V1"); 
 
@@ -104,7 +108,7 @@ async function realiseProcess(source_immaculate){
     } catch (error) {
       console.error(error);
     }
-    cv.imshow('canvasFinal2', source);
+    //cv.imshow('canvasFinal2', source);
 
     resetCompteur("V2"); 
 
@@ -125,13 +129,13 @@ async function realiseProcess(source_immaculate){
     
     if (V1 == true){
       button_valide.textContent = "La photo 1 est valide";
-      const canvas = document.getElementById('canvasFinal1');
-      canvas.style.display = 'block';
+      /* const canvas = document.getElementById('canvasFinal1');
+      canvas.style.display = 'block'; */
     }
     else{
       button_valide.textContent = "La photo 2 est valide";
-      const canvas = document.getElementById('canvasFinal2');
-      canvas.style.display = 'block';
+      /* const canvas = document.getElementById('canvasFinal2');
+      canvas.style.display = 'block'; */
     }
   }
   else{
