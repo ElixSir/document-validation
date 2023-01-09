@@ -117,7 +117,6 @@ function filterPreProcess() {
 
     // RGB to BGR
     cv.cvtColor(img, img, cv.COLOR_RGB2BGR)
-    // cv.imshow('canvasOutput3', img);
 
     img2 = img.clone();
     img3 = img.clone();
@@ -316,7 +315,7 @@ function findCorners(){
     // Apply perspective transformation
     cv.warpPerspective(imgOriginal, finalDst, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
     cv.cvtColor(finalDst, finalDst, cv.COLOR_BGR2RGB, 0);
-    //cv.imshow('canvasOutput11', finalDst);
+    cv.imshow('canvasOutput11', finalDst);
     if(document.getElementById('canvasOutput11').height > document.getElementById('canvasOutput11').width) {
         cv.rotate(finalDst, finalDst, cv.ROTATE_90_COUNTERCLOCKWISE);
     }

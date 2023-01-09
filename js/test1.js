@@ -122,12 +122,14 @@ async function realiseProcess(source_immaculate){
 
   if(V1 == true || V2 == true){
     console.log("La photo est valide");
-    button_valide.textContent = "La photo est valide";
+    
     if (V1 == true){
+      button_valide.textContent = "La photo 1 est valide";
       const canvas = document.getElementById('canvasFinal1');
       canvas.style.display = 'block';
     }
     else{
+      button_valide.textContent = "La photo 2 est valide";
       const canvas = document.getElementById('canvasFinal2');
       canvas.style.display = 'block';
     }
@@ -164,7 +166,11 @@ async function matchTemplateDraw(width, source, templ, name_img, version)
   }
 
   let result = cv.minMaxLoc(dest, M);
-  //console.log(result.maxVal*100);
+  console.log(result.maxVal*100);
+  /*if(result.maxVal*100 < 20)
+  {
+    return false;
+  }*/
   let maxPoint = result.maxLoc;
   let color = new cv.Scalar(255, 0, 0, 255);
   let point = new cv.Point(maxPoint.x + templ.cols, maxPoint.y + templ.rows);
@@ -202,7 +208,7 @@ async function OCR_traitement_image(dst, width, name_img, version)
 
   cv.cvtColor(dst, dst, cv.COLOR_RGB2GRAY, 0); 	
 
-  if(version == "V1_Scan" || version == "V1_Photo")
+  if(version == "V1_Photo")
   {
     applyFilterV1(dst, name_img);
   }
