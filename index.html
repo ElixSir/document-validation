@@ -2,8 +2,67 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+  <script defer src="https://pyscript.net/latest/pyscript.js"></script>
 </head>
 <body>
+
+  <py-config>
+    packages = [
+      "pillow",
+      "numpy", 
+      "opencv-python"
+    ]
+
+    [[fetch]]
+    from = './py/'
+    files = ['display.py']
+  </py-config>
+
+
+    <img id="imageSrc" alt="No Image" style="display: none;"/>
+    <label for="img-upload"> <b>Estimation de la qualité de l'image (PNG) : </b></label> 
+    <input name="img-upload" type="file" id="file-upload">
+    
+    <br>
+   
+    <label for="output">Do you want to see the results of the estimation? </label>
+    <input type="checkbox" id="output" name="output" checked>
+
+    <br>
+
+    <label for="resize">Do you want to resize the image? </label>
+    <input type="checkbox" id="resize" name="resize" checked>
+
+    <input type="number" id="resize_value" value="800">
+
+    <br>
+
+    <label for="resize_OpenCV">Use OpenCV? (if not, PIL)</label>
+    <input type="checkbox" id="resize_OpenCV" name="resize_OpenCV" checked>
+    
+    <br>
+
+    <button onclick="resetOutput()">Reset Output</button> 
+
+    <br>
+
+    <label for="estimation-result"> <b>Resultat de l'estimation : </b></label> 
+    <div name="estimation-result" id="output_estimation"></div>
+
+    <label for="qualite-result"> <b>QUALITÉ : </b></label> 
+    <div name="qualite-result" id="output_qualite"></div>
+    
+    <label for="exec_time-result"> <b>Temps d'exec (ms) : </b></label> 
+    <div name="exec_time-result" id="output_exec_time"></div>
+
+    <label for="img-uploaded"> <b>Image uploadé : </b></label> 
+    <br> 
+    <div name="img-uploaded" id="output_upload"></div>
+   
+    
+
+
   <p id="status">OpenCV.js is loading...</p>
 
   <h2 id="chargement_titre"></h2>
@@ -11,10 +70,12 @@
   <h3 id="resultat"></h2>
   <h3 id="valide"></h2>
   <div>
-     <div class="inputoutput">
+
+     <!-- <div class="inputoutput">
       <img id="imageSrc" alt="No Image" style="display: none;"/>
       <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
-    </div>
+    </div> -->
+
     <!-- <div class="inputoutput">
       <canvas id="canvasOutput2" ></canvas>
       <div class="caption">canvasOutput2</div>
@@ -110,5 +171,28 @@
 <script src='https://unpkg.com/tesseract.js@4.0.0/dist/tesseract.min.js'></script>
 <script type="text/javascript" onload="onOpenCvReady();" src="./js/processing.js"></script>
 <script type="text/javascript" src="./js/test1.js"></script>
+
+  <py-script src="./py/image_upload.py"></py-script>
+  <py-script src="./py/display.py"></py-script>
+  
+  <script>
+    function processSprintTwo() {
+        alert("Qualité OK : Lessgui");
+        documentDetectionProcess();
+    }
+
+    function resetProcessSprintOne() {
+        alert("Qualité PAS OK : Try Again");
+    }
+
+    function resetOutput() {
+        document.getElementById('output_estimation').innerHTML = "";
+        document.getElementById('output_exec_time').innerHTML = "";
+        document.getElementById('output_qualite').innerHTML = "";
+        if (document.getElementById("output_upload").firstChild) {
+            document.getElementById("output_upload").removeChild(document.getElementById("output_upload").firstChild);
+        } 
+    }
+  </script>
 
 </html>

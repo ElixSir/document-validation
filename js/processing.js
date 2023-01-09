@@ -1,5 +1,5 @@
 let imgElement = document.getElementById('imageSrc');
-let inputElement = document.getElementById('fileInput');
+let inputElement = document.getElementById('file-upload');
 
 // temp img definition
 let gray;
@@ -47,10 +47,9 @@ inputElement.addEventListener('change', (e) => {
     imgElement.src = URL.createObjectURL(e.target.files[0]);
 }, false);
 
-imgElement.onload = function() {
-    initMats();
-    documentDetectionProcess();
-}
+// imgElement.onload = function() {
+//     documentDetectionProcess();
+// }
 
 function initMats() {
     gray = new cv.Mat();
@@ -67,7 +66,9 @@ function initMats() {
 }
 
 function documentDetectionProcess() {
-    src = cv.imread(imgElement)
+    initMats();
+
+    src = cv.imread(imgElement);
 
     contourRatio = getContoursRatio(src);
 
