@@ -144,6 +144,8 @@ async function realiseProcess(source_immaculate){
   }
   end = new Date();
   button_resultat.textContent = "Temps de traitement : " + (end-start) + " ms";
+  button_chargement_titre.textContent = "";
+  button_chargement.textContent = "";
   console.log(end-start);
 
   // Robin executer fonction
