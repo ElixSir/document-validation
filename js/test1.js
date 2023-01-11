@@ -148,16 +148,14 @@ async function realiseProcess(source_immaculate){
   button_chargement.textContent = "";
   console.log(end-start);
 
-  // Robin executer fonction 
-  // - oui... moi executer fonction
-  // - fin transmission... bip... bip... 
-  
-  let sprint1 = pyodideGlobals.get('_processing');
-  final_canvas = document.getElementById('canvasOutput12');
+  // -- PROCESS SPRINT 1 -- 
+
+  let process_sprint1 = pyodideGlobals.get('_processing'); // get main function 
+  final_canvas = document.getElementById('canvasOutput12'); // get the canva 
  
   final_canvas.toBlob((blob) => { 
-      let file = new File([blob], "image_processed_after_sprint2.jpg", { type: "image/jpeg" });
-      sprint1(file);
+      let file = new File([blob], "image_processed_after_sprint2.jpg", { type: "image/jpeg" }); // convert canva to file
+      process_sprint1(file);
     }, 'image/jpeg');
 
 }

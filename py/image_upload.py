@@ -1,5 +1,5 @@
 from js import document, console, Uint8Array, performance, createObject
-from js import processSprintTwo, resetProcessSprintOne, resetOutput
+from js import resetOutput
 
 import io
 import display
@@ -165,11 +165,6 @@ def _estimate_result(sharpness_result, seuil_haut, seuil_moyen):
 
 async def _upload_file_and_process(e):
     
-    # file uploaded
-    # console.log("Attempted file upload: " + e.target.value)
-    # file_list = e.target.files
-    # first_item = file_list.item(0)
-
     # start of the scoring part 
     start = performance.now()  
 
@@ -186,9 +181,11 @@ async def _upload_file_and_process(e):
     # Create PIL image from np array
     my_image = Image.open(my_bytes)
     w, h = my_image.size
-    console.log("w: ", w, "- h: ", h)
+    console.log("image size = w: ", w, "- h: ", h)
 
+    # Resize if button checked 
     if document.getElementById("resize").checked == True:
+        # value of the resize defined here 
         resize_value = int(document.getElementById("resize_value").value)
         if w > h: 
             resizeCoef = resize_value/h
@@ -198,18 +195,11 @@ async def _upload_file_and_process(e):
         new_h = int(h*resizeCoef)
         console.log("new_w: ", new_w, "new_h: ", new_h)
 
+        # with OpenCV or PIL 
         if document.getElementById("resize_OpenCV").checked == True:
             console.log("METHOD: OpenCV")
             my_image_data = np.array(my_image.convert())
             my_image_data = cv2.resize(my_image_data, dsize=(new_w, new_h), interpolation=cv2.INTER_CUBIC)
-
-            # INTER_NEAREST - a nearest-neighbor interpolation
-            # INTER_LINEAR - a bilinear interpolation (used by default)
-            # INTER_AREA - resampling using pixel area relation. It may be a preferred method for image decimation, as it gives moire’-free results. But when the image is zoomed, it is similar to the INTER_NEAREST method.
-            # INTER_CUBIC - a bicubic interpolation over 4x4 pixel neighborhood
-            # INTER_LANCZOS4 - a Lanczos interpolation over 8x8 pixel neighborhood
-            # from: https://stackoverflow.com/questions/48121916/numpy-resize-rescale-image 
-
         else:
             console.log("METHOD: PIL")
             my_image = my_image.resize((new_w, new_h))
@@ -225,10 +215,8 @@ async def _upload_file_and_process(e):
     elapsed = end - start
     exec_time = str(elapsed)
 
-    # seuil_haut = 1.14 # supérieur à ça : bonne qualité 
-    seuil_haut = 1.05 # supérieur à ça : bonne qualité 
-
-    seuil_moyen = 1.09 # supérieur à ça : qualité moyenne
+    seuil_haut = 1.05 # > good quality 
+    seuil_moyen = 1.09 # > average quality
     
     quality_level = _estimate_result(estimation, seuil_haut, seuil_moyen) # 1 - 2 - 3 
 
@@ -237,25 +225,12 @@ async def _upload_file_and_process(e):
 
     
 async def _processing(e):
-    
     resetOutput()  
-
-    console.log(e)
-    
-    # console.log(e.getImageData())
 
     estimation, quality_lvl, img_src, exec_time = await _upload_file_and_process(e)
     
     if document.getElementById("output").checked == True:
         display._display_output(estimation, quality_lvl, img_src, exec_time)
-    
-    # if quality_lvl == 1: 
-    #     processSprintTwo()
-    # else:
-    #     resetProcessSprintOne()
 
-
-# upload_file = ffi.create_proxy(_processing)
-# document.getElementById("file-upload").addEventListener("change", upload_file)
 
 createObject(ffi.create_proxy(globals()), "pyodideGlobals")
