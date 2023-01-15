@@ -19,6 +19,8 @@
     files = ['display.py']
   </py-config>
 
+  <p id="status">OpenCV.js is loading...</p>
+
   <img id="imageSrc" alt="No Image" style="display: none;"/>
   <label for="img-upload"> <b>Estimation de la qualité de l'image (PNG) : </b></label> 
   <input name="img-upload" type="file" id="file-upload">
@@ -59,21 +61,16 @@
   <br> 
   <div name="img-uploaded" id="output_upload"></div>
   
-  
-  <p id="status">OpenCV.js is loading...</p>
-
   <h2 id="chargement_titre"></h2>
   <h3 id="chargement"></h3>
   <h2 id="resultat"></h2>
   <h2 id="valide"></h2>
   
   <div>
-     <!-- <div class="inputoutput">
-      <img id="imageSrc" alt="No Image" style="display: none;"/>
-      <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
-    </div> -->
 
-    <!-- <div class="inputoutput">
+    <!--  Debugging -->
+      
+     <!-- <div class="inputoutput">
       <canvas id="canvasOutput2" ></canvas>
       <div class="caption">canvasOutput2</div>
     </div>
@@ -109,6 +106,8 @@
       <canvas id="canvasOutput10" ></canvas>
       <div class="caption">canvasOutput10</div>
     </div> -->
+
+
     <div class="inputoutput" hidden>
       <canvas id="canvasOutput11" ></canvas>
       <div class="caption">canvasOutput11</div>
@@ -119,6 +118,8 @@
     </div>
   </div>
 
+  <!-- Fields to test for Version 1 -->
+
   <div id="CNI_FR_V1_Photo">
     <img id="bande_haut_bleue_V1_Photo" src="./CNI_FR_V1_Photo/bande_haut_bleue.jpg" hidden>
     <img id="nationnalite_fr_V1_Photo" src="./CNI_FR_V1_Photo/nationnalite_fr.jpg" hidden>
@@ -127,6 +128,8 @@
     <img id="numero_CNI_V1_Photo" src="./CNI_FR_V1_Photo/numero_CNI.jpg" hidden>
     <img id="bas_V1_Photo" src="./CNI_FR_V1_Photo/bas.jpg" hidden>
   </div>
+
+  <!-- Fields to test for Version 2 -->
 
   <div id="CNI_FR_V2_Photo">
     <img id="date_expiration_V2_Photo" src="./CNI_FR_V2_Photo/date_expiration.jpg" hidden>
@@ -141,8 +144,8 @@
     <img id="republique_V2_Photo" src="./CNI_FR_V2_Photo/republique.jpg" hidden>
   </div>
   
- <!--  <canvas id="canvasFinal1" hidden></canvas>
-  <canvas id="canvasFinal2" hidden></canvas> -->
+  <!-- Fields to practice OCR on them -->
+
   <canvas id="canvasAffichage1" hidden></canvas>
   <canvas id="canvasAffichage2" hidden></canvas>
   <canvas id="canvasAffichage3" hidden></canvas>
@@ -154,33 +157,20 @@
   <canvas id="canvasAffichage9" hidden></canvas>
   <canvas id="canvasAffichage10" hidden></canvas>
   <canvas id="canvasAffichage11" hidden></canvas>
-  <canvas id="canvasAffichage12" hidden></canvas>
-  <canvas id="canvasAffichage13" hidden></canvas>
-  <canvas id="canvasAffichage14" hidden></canvas>
-  <canvas id="canvasAffichage15" hidden></canvas>
-  <canvas id="canvasAffichage16" hidden></canvas>
-  <canvas id="canvasAffichage17" hidden></canvas>
    
 </body>
 
-<!--<script src="opencv.js"></script>-->
+<!-- Javascrits Library -->
 <script type="text/javascript" src="libs/opencv-4.7.0.js"></script>
 <script src='https://unpkg.com/tesseract.js@4.0.0/dist/tesseract.min.js'></script>
-<script type="text/javascript" onload="onOpenCvReady();" src="./js/processing.js"></script>
-<script type="text/javascript" src="./js/test1.js"></script>
 
-  <py-script src="./py/image_upload.py"></py-script>
-  <py-script src="./py/display.py"></py-script>
+<!-- Javascrits Functions -->
+<script type="text/javascript" onload="onOpenCvReady();" src="./js/contour_detection.js"></script>
+<script type="text/javascript" src="./js/checking_parasiting_objects.js"></script>
+<script type="text/javascript" src="./js/main.js"></script>
+
+<!-- Python Functions -->
+<py-script src="./py/image_upload.py"></py-script>
+<py-script src="./py/display.py"></py-script>
   
-  <script>
-    function resetOutput() {
-        document.getElementById('output_estimation').innerHTML = "";
-        document.getElementById('output_exec_time').innerHTML = "";
-        document.getElementById('output_qualite').innerHTML = "";
-        if (document.getElementById("output_upload").firstChild) {
-            document.getElementById("output_upload").removeChild(document.getElementById("output_upload").firstChild);
-        } 
-    }
-  </script>
-
 </html>
