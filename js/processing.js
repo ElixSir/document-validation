@@ -320,7 +320,7 @@ function findCorners(){
     if(document.getElementById('canvasOutput11').height > document.getElementById('canvasOutput11').width) {
         cv.rotate(finalDst, finalDst, cv.ROTATE_90_COUNTERCLOCKWISE);
     }
-    //cv.imshow('canvasOutput12', finalDst);
+    cv.imshow('canvasOutput12', finalDst);
     try {
         realiseProcess(finalDst);
     } catch (error) {

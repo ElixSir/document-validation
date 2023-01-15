@@ -19,60 +19,55 @@
     files = ['display.py']
   </py-config>
 
+  <img id="imageSrc" alt="No Image" style="display: none;"/>
+  <label for="img-upload"> <b>Estimation de la qualité de l'image (PNG) : </b></label> 
+  <input name="img-upload" type="file" id="file-upload">
+  
+  <br>
+  
+  <label for="output">Do you want to see the results of the estimation? </label>
+  <input type="checkbox" id="output" name="output" checked>
+
+  <br>
+
+  <label for="resize">Do you want to resize the image? </label>
+  <input type="checkbox" id="resize" name="resize">
+
+  <input type="number" id="resize_value" value="800">
+
+  <br>
+
+  <label for="resize_OpenCV">Use OpenCV? (if not, PIL)</label>
+  <input type="checkbox" id="resize_OpenCV" name="resize_OpenCV" checked>
+  
+  <br>
+
+  <button onclick="resetOutput()">Reset Output</button> 
+
+  <br>
+
+  <label for="estimation-result"> <b>Resultat de l'estimation : </b></label> 
+  <div name="estimation-result" id="output_estimation"></div>
+
+  <label for="qualite-result"> <b>QUALITÉ : </b></label> 
+  <div name="qualite-result" id="output_qualite"></div>
+  
+  <label for="exec_time-result"> <b>Temps d'exec (ms) : </b></label> 
+  <div name="exec_time-result" id="output_exec_time"></div>
+
+  <label for="img-uploaded"> <b>Image uploadé : </b></label> 
+  <br> 
+  <div name="img-uploaded" id="output_upload"></div>
+  
+  
   <p id="status">OpenCV.js is loading...</p>
-
-
-    <img id="imageSrc" alt="No Image" style="display: none;"/>
-    <label for="img-upload"> <b>Estimation de la qualité de l'image (PNG) : </b></label> 
-    <input name="img-upload" type="file" id="file-upload">
-    
-    <br>
-   
-    <label for="output">Do you want to see the results of the estimation? </label>
-    <input type="checkbox" id="output" name="output" checked>
-
-    <br>
-
-    <label for="resize">Do you want to resize the image? </label>
-    <input type="checkbox" id="resize" name="resize" checked>
-
-    <input type="number" id="resize_value" value="800">
-
-    <br>
-
-    <label for="resize_OpenCV">Use OpenCV? (if not, PIL)</label>
-    <input type="checkbox" id="resize_OpenCV" name="resize_OpenCV" checked>
-    
-    <br>
-
-    <button onclick="resetOutput()">Reset Output</button> 
-
-    <br>
-
-    <label for="estimation-result"> <b>Resultat de l'estimation : </b></label> 
-    <div name="estimation-result" id="output_estimation"></div>
-
-    <label for="qualite-result"> <b>QUALITÉ : </b></label> 
-    <div name="qualite-result" id="output_qualite"></div>
-    
-    <label for="exec_time-result"> <b>Temps d'exec (ms) : </b></label> 
-    <div name="exec_time-result" id="output_exec_time"></div>
-
-    <label for="img-uploaded"> <b>Image uploadé : </b></label> 
-    <br> 
-    <div name="img-uploaded" id="output_upload"></div>
-   
-    
-
-
-
 
   <h2 id="chargement_titre"></h2>
   <h3 id="chargement"></h3>
   <h2 id="resultat"></h2>
   <h2 id="valide"></h2>
+  
   <div>
-
      <!-- <div class="inputoutput">
       <img id="imageSrc" alt="No Image" style="display: none;"/>
       <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
@@ -118,10 +113,10 @@
       <canvas id="canvasOutput11" ></canvas>
       <div class="caption">canvasOutput11</div>
     </div>
-    <!-- <div class="inputoutput">
+    <div class="inputoutput" hidden>
       <canvas id="canvasOutput12" ></canvas>
       <div class="caption">canvasOutput12</div>
-    </div> -->
+    </div>
   </div>
 
   <div id="CNI_FR_V1_Photo">
@@ -178,15 +173,6 @@
   <py-script src="./py/display.py"></py-script>
   
   <script>
-    function processSprintTwo() {
-        alert("Qualité OK : Lessgui");
-        documentDetectionProcess();
-    }
-
-    function resetProcessSprintOne() {
-        alert("Qualité PAS OK : Try Again");
-    }
-
     function resetOutput() {
         document.getElementById('output_estimation').innerHTML = "";
         document.getElementById('output_exec_time').innerHTML = "";
