@@ -163,8 +163,6 @@ async function matchTemplateDraw(width, source, templ, name_img, version)
   let M = new cv.Mat();
   cv.cvtColor(source, source_gray, cv.COLOR_BGR2GRAY, 0);
   cv.cvtColor(templ, templ_gray, cv.COLOR_BGR2GRAY, 0);
-  cv.threshold(source, source_black, 80, 255, cv.THRESH_BINARY);
-  cv.threshold(templ, templ_black, 80, 255, cv.THRESH_BINARY);
 
   try {
     cv.matchTemplate(source_gray, templ_gray, dest, cv.TM_CCOEFF_NORMED, M);
@@ -288,7 +286,7 @@ async function OCR_Image(image, name_img, version)
 
 function validatorOCR(text, name_img, version)
 {
-  if(version == "V1_Scan" || version == "V1_Photo")
+  if(version == "V1_Photo")
   {
     switch(name_img)
     {
