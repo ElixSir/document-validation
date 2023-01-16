@@ -1,27 +1,26 @@
 let imgElement = document.getElementById('imageSrc');
 let inputElement = document.getElementById('file-upload');
+let button_valide = document.getElementById('valide');
 
 inputElement.addEventListener('change', (e) => {
     imgElement.src = URL.createObjectURL(e.target.files[0]);
 }, false);
 
+// lancement de la fonction main lorsqu'une image est upload par l'user
 imgElement.onload = function() {
     main();
 }
 
-
 async function main() {
-    
     try {
         image_output = contourDetection();
         await checkingParasitingObjects(image_output);
         scoring();
         
     } catch (error) {
-        console.error("la photo n'est pas valide");
+        console.error("La photo n'est pas valide.");
         button_valide.textContent = "La photo n'est pas valide";
     }
-
 }
 
 function scoring() {
@@ -34,15 +33,17 @@ function scoring() {
     }, 'image/jpeg'); // convert canva to blob
 }
 
-function createObject(object, variableName){
-    //Bind a variable whose name is the string variableName
+function createObject(object, variableName) {
+    // Bind a variable whose name is the string variableName
     // to the object called 'object'
     let execString = variableName + " = object"
     console.log("Running `" + execString + "`");
     eval(execString)
-  }
+}
 
 function resetOutput() {
+    // Function used in python file
+    // Clear the results of quality estimation 
     document.getElementById('output_estimation').innerHTML = "";
     document.getElementById('output_exec_time').innerHTML = "";
     document.getElementById('output_qualite').innerHTML = "";
