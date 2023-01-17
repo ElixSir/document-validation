@@ -1,6 +1,3 @@
-/* let imgElement = document.getElementById('imageSrc');
-let inputElement = document.getElementById('file-upload'); */
-
 // temp img definition
 let gray;
 let bilateral;
@@ -45,24 +42,9 @@ let contourRatio;
 
 
 
-function initMats() {
-    gray = new cv.Mat();
-    bilateral = new cv.Mat();
-    eq = new cv.Mat();
-    edged = new cv.Mat();
-    img = new cv.Mat();
-    imgOriginal = new cv.Mat();
 
-    contours_poly = new cv.MatVector();
-    boundRect = new cv.RectVector();
-
-    green = new cv.Scalar(0,255,0);
-}
-
-function contourDetection() {
+function contourDetection(src) {
     initMats();
-
-    src = cv.imread(imgElement);
 
     contourRatio = getContoursRatio(src);
 
@@ -81,6 +63,20 @@ function contourDetection() {
     image_output = findCorners();
 
     return image_output;
+}
+
+function initMats() {
+    gray = new cv.Mat();
+    bilateral = new cv.Mat();
+    eq = new cv.Mat();
+    edged = new cv.Mat();
+    img = new cv.Mat();
+    imgOriginal = new cv.Mat();
+
+    contours_poly = new cv.MatVector();
+    boundRect = new cv.RectVector();
+
+    green = new cv.Scalar(0,255,0);
 }
 
 function resizeImage() {

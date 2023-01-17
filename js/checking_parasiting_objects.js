@@ -7,6 +7,10 @@ var end;
 var nbImgTot = 0;
 var V1;
 var V2;
+var button_chargement_titre = document.getElementById('chargement_titre');
+let button_chargement = document.getElementById('chargement');
+
+
 
 
 //main function
@@ -22,20 +26,18 @@ async function checkingParasitingObjects(source_immaculate){
   start = new Date();
 
   // B O U T O N S    A F F I C H A G E
-  let button_chargement_titre = document.getElementById('chargement_titre');
-  let button_chargement = document.getElementById('chargement');
   let button_resultat = document.getElementById('resultat');
-  let button_valide = document.getElementById('valide');
+ 
 
 
   ///////////////////////////////////////////////////////
 
   //CNI_FR_V1_Photo
-  executionVersion1(source_immaculate, button_chargement_titre, button_chargement, button_valide);
+  await executionVersion1(source_immaculate);
 
   //CNI_FR_V2_Photo
   if(V1 == false){
-    executionVersion2(source_immaculate, button_chargement_titre, button_chargement, button_valide);
+    await executionVersion2(source_immaculate);
   }
 
   ///////////////////////////////////////////////////////
@@ -50,7 +52,7 @@ async function checkingParasitingObjects(source_immaculate){
   console.log(end-start);
 }
 
-async function executionVersion1(source_immaculate, button_chargement_titre, button_chargement)
+async function executionVersion1(source_immaculate)
 {
   // Initialisation des variables pour la version 1
   source = source_immaculate.clone();
@@ -100,7 +102,7 @@ async function executionVersion1(source_immaculate, button_chargement_titre, but
   validation("V1"); 
 }
 
-async function executionVersion2(source_immaculate, button_chargement_titre, button_chargement)
+async function executionVersion2(source_immaculate)
 {
   // Initialisation des variables pour la version 2
 
@@ -425,6 +427,7 @@ function validation(version)
 
 function affichageFinal()
 {
+  let button_valide = document.getElementById('valide');
   if(V1 == true || V2 == true){
     console.log("La photo est valide");
     
