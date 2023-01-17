@@ -155,15 +155,15 @@ class DOM(object):
 
 def _estimate_result(sharpness_result, seuil_haut, seuil_moyen):
     if sharpness_result >= seuil_haut :
-        level = 1
+        level = 1 # GOOD
     elif sharpness_result >= seuil_moyen : 
-        level = 2
+        level = 2 # AVERAGE
     else :
-        level = 3 
+        level = 3 # BAD
     return level
 
 
-async def _upload_file_and_process(e):
+async def _get_sharpness_estimation(file):
     
     # start of the scoring part 
     start = performance.now()  
@@ -172,7 +172,7 @@ async def _upload_file_and_process(e):
 
     # Get the data from the files arrayBuffer as an array of unsigned bytes
     # array_buf = Uint8Array.new(await first_item.arrayBuffer())
-    array_buf = Uint8Array.new(await e.arrayBuffer())
+    array_buf = Uint8Array.new(await file.arrayBuffer())
 
     # BytesIO wants a bytes-like object, so convert to bytearray first
     bytes_list = bytearray(array_buf) 
@@ -216,18 +216,16 @@ async def _upload_file_and_process(e):
     exec_time = str(elapsed)
 
     seuil_haut = 1.05 # > good quality 
-    seuil_moyen = 1.09 # > average quality
+    seuil_moyen = 0.98 # > average quality
     
     quality_level = _estimate_result(estimation, seuil_haut, seuil_moyen) # 1 - 2 - 3 
 
-    # return estimation, quality_level, first_item, exec_time
-    return estimation, quality_level, e, exec_time
+    return estimation, quality_level, file, exec_time
 
     
-async def _processing(e):
-    resetOutput()  
-
-    estimation, quality_lvl, img_src, exec_time = await _upload_file_and_process(e)
+async def _processing(file):
+    resetOutput()
+    estimation, quality_lvl, img_src, exec_time = await _get_sharpness_estimation(file)
     
     if document.getElementById("output").checked == True:
         display._display_output(estimation, quality_lvl, img_src, exec_time)

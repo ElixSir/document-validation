@@ -5,10 +5,10 @@ inputElement.addEventListener('change', (e) => {
     imgElement.src = URL.createObjectURL(e.target.files[0]);
 }, false);
 
+// lancement de la fonction main lorsqu'une image est upload par l'user
 imgElement.onload = function() {
     main();
 }
-
 
 async function main() {
     let button_valide = document.getElementById('valide');
@@ -20,9 +20,7 @@ async function main() {
         scoring();
         
     } catch (error) {
-        console.error("la photo n'est pas valide");
-        console.error(error);
+        console.error("La photo n'est pas valide.");
         button_valide.textContent = "La photo n'est pas valide";
     }
-
 }

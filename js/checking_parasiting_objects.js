@@ -14,7 +14,7 @@ let button_chargement = document.getElementById('chargement');
 
 
 //main function
-async function checkingParasitingObjects(source_immaculate){
+async function checkingParasitingObjects(source_immaculate) {
 
   // V A R I A B L E S
 
@@ -96,9 +96,9 @@ async function executionVersion1(source_immaculate)
   }
   
   // debug
-  //cv.imshow('canvasFinal1', source);
+  // cv.imshow('canvasFinal1', source);
   
-  //réinitialisation des compteurs
+  // Réinitialisation des compteurs
   validation("V1"); 
 }
 
@@ -310,7 +310,7 @@ async function OCR_Image(image, name_img, version)
   return bool;
 };
 
-//Vérifie si le texte OCR est correct
+// Vérifie si le texte OCR est correct
 function validatorOCR(text, name_img, version)
 {
   if(version == "V1_Photo")
@@ -399,7 +399,6 @@ function validate(text, pattern)
   else{
     return false;
   }
-
 }
 
 function validation(version)
