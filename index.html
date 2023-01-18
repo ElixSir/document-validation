@@ -4,6 +4,12 @@
   <meta charset="utf-8">
   <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
   <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+  <style>
+    #output_img_scoring{
+      display: none;
+    }
+  </style>
+
 </head>
 <body>
 
@@ -21,12 +27,8 @@
 
   <p id="status">OpenCV.js is loading...</p>
 
-  <img id="imageSrc" alt="No Image" style="display: none;"/>
-  <label for="img-upload"> <b>Estimation de la qualité de l'image (PNG) : </b></label> 
-  <input name="img-upload" type="file" id="file-upload">
-  
   <br>
-  
+
   <label for="output">Do you want to see the results of the estimation? </label>
   <input type="checkbox" id="output" name="output" checked>
 
@@ -44,29 +46,24 @@
   
   <br>
 
-  <button onclick="resetOutput()">Reset Output</button> 
-
-  <br>
-
-  <label for="estimation-result"> <b>Resultat de l'estimation : </b></label> 
-  <div name="estimation-result" id="output_estimation"></div>
-
-  <label for="qualite-result"> <b>QUALITÉ : </b></label> 
-  <div name="qualite-result" id="output_qualite"></div>
+  <img id="imageSrc" alt="No Image" style="display: none;"/>
+  <label for="img-upload"> <b>Estimation de la qualité de l'image (PNG) : </b></label> 
+  <input name="img-upload" type="file" id="file-upload">
   
-  <label for="exec_time-result"> <b>Temps d'exec (ms) : </b></label> 
-  <div name="exec_time-result" id="output_exec_time"></div>
-
-  <label for="img-uploaded"> <b>Image uploadé : </b></label> 
-  <br> 
-  <div name="img-uploaded" id="output_upload"></div>
   
+
+  <!-- Document integrity -->
+
   <h2 id="chargement_titre"></h2>
   <h3 id="chargement"></h3>
   <h2 id="resultat"></h2>
   <h2 id="valide"></h2>
   
+
+  
+
   <div>
+
 
     <!--  Debugging -->
       
@@ -157,16 +154,50 @@
   <canvas id="canvasAffichage10" hidden></canvas>
   <canvas id="canvasAffichage11" hidden></canvas>
    
+
+  <canvas id="canvasSourceResized"></canvas>
+
+
+  <!-- Scoring -->
+
+  
+  <br>
+
+  <label for="estimation-result"> <b>Resultat de l'estimation : </b></label> 
+  <div name="estimation-result" id="output_estimation"></div>
+
+  <label for="qualite-result"> <b>QUALITÉ : </b></label> 
+  <div name="qualite-result" id="output_qualite"></div>
+  
+  <label for="exec_time-result"> <b>Temps d'exec (ms) : </b></label> 
+  <div name="exec_time-result" id="output_exec_time"></div>
+
+  <div name="img-uploaded" id="output_upload"></div>
+
+  <!-- Face detection -->
+
+  <div id="face_detection">
+    
+    
+  </div>
+  <h2 id="score"></h2>
+  <h2 id="resultat_face_detection"></h2>
+    
+  </div>
+
 </body>
+
 
 <!-- Javascrits Library -->
 <script type="text/javascript" src="libs/opencv-4.7.0.js"></script>
 <script src='https://unpkg.com/tesseract.js@4.0.0/dist/tesseract.min.js'></script>
+<script src="./libs/face-api.min.js"></script>
 
 <!-- Javascrits Functions -->
 <script type="text/javascript" onload="onOpenCvReady();" src="./js/contour_detection.js"></script>
 <script type="text/javascript" src="./js/checking_parasiting_objects.js"></script>
 <script type="text/javascript" src="./js/scoring.js"></script>
+<script src="./js/face-detector-document.js"></script>
 <script type="text/javascript" src="./js/main.js"></script>
 
 <!-- Python Functions -->

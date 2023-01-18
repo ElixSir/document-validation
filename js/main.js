@@ -16,11 +16,30 @@ async function main() {
 
     try {
         image_output = contourDetection(src);
-        await checkingParasitingObjects(image_output);
-        scoring();
-        
     } catch (error) {
-        console.error("La photo n'est pas valide.");
+        console.error(error);
+        console.error("La photo n'est pas valide. Erreur à l'étape de détection des contours.");
+        button_valide.textContent = "La photo n'est pas valide";
+    }
+    try {
+        await checkingParasitingObjects(image_output);
+    } catch (error) {
+        console.error(error);
+        console.error("La photo n'est pas valide. Erreur à l'étape de détection des objets parasites.");
+        button_valide.textContent = "La photo n'est pas valide";
+    }
+    try {
+        scoring()
+    } catch (error) {
+        console.error(error);
+        console.error("La photo n'est pas valide. Erreur à l'étape de scoring.");
+        button_valide.textContent = "La photo n'est pas valide";
+    }
+    try {
+        FaceDocumentDetection();
+    } catch (error) {
+        console.error(error);
+        console.error("La photo n'est pas valide. Erreur à l'étape de détection du visage.");
         button_valide.textContent = "La photo n'est pas valide";
     }
 }

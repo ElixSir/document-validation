@@ -9,6 +9,7 @@ var V1;
 var V2;
 var button_chargement_titre = document.getElementById('chargement_titre');
 let button_chargement = document.getElementById('chargement');
+var source_resized;
 
 
 
@@ -27,7 +28,6 @@ async function checkingParasitingObjects(source_immaculate) {
 
   // B O U T O N S    A F F I C H A G E
   let button_resultat = document.getElementById('resultat');
- 
 
 
   ///////////////////////////////////////////////////////
@@ -61,7 +61,7 @@ async function executionVersion1(source_immaculate)
   height_source = 651;
   dsize = new cv.Size(width_source, height_source);
   cv.resize(source, source, dsize, 0, 0, cv.INTER_AREA);
-
+  source_resized = source.clone();
 
   // Execution de la version 1
   button_chargement_titre.textContent = "Début test première version";
@@ -113,6 +113,7 @@ async function executionVersion2(source_immaculate)
   height_source = 556;
   dsize = new cv.Size(width_source, height_source);
   cv.resize(source, source, dsize, 0, 0, cv.INTER_AREA);
+  source_resized = source.clone();
 
   // Execution de la version 2
   button_chargement_titre.textContent = "Début test deuxième version";
@@ -429,16 +430,13 @@ function affichageFinal()
   let button_valide = document.getElementById('valide');
   if(V1 == true || V2 == true){
     console.log("La photo est valide");
+    cv.imshow('canvasSourceResized', source_resized);
     
     if (V1 == true){
       button_valide.textContent = "La photo 1 est valide";
-      /* const canvas = document.getElementById('canvasFinal1');
-      canvas.style.display = 'block'; */
     }
     else{
       button_valide.textContent = "La photo 2 est valide";
-      /* const canvas = document.getElementById('canvasFinal2');
-      canvas.style.display = 'block'; */
     }
   }
   else{
