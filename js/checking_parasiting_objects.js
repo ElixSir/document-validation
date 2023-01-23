@@ -273,14 +273,14 @@ function applyFilterV1(dst, name_img)
 
 async function OCR_Image(image, name_img, version)
 {
-  let bool;
+  let bool = false;
   
   const { createWorker } = Tesseract;
 
   const worker = await createWorker({
   });
-
-  process = await (async () => {
+  
+  process = (async () => {
     await worker.loadLanguage('fra');
     await worker.initialize('fra');
     const { data: { text } } = await worker.recognize(image);
@@ -295,19 +295,10 @@ async function OCR_Image(image, name_img, version)
       compteur_OCR++;
       bool = true;
     }
-    else{
-      bool = false;
-    }
-    
   })();
-
-  /*try {
-    setTimeout(process, 4000)
-  } catch (e) {
-    console.error('Timeout Error:', e.message)
-    bool = false;
-  }*/
-  
+  //le traitement process dure environ 1 seconde, on attend 2 secondes pour être sûr que le traitement est terminé
+  //permet d'éviter que l'OCR essaie de déchiffrer une image sans texte
+  await new Promise(resolve => setTimeout(resolve, 2000));
   return bool;
 };
 

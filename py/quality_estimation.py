@@ -1,4 +1,4 @@
-from js import document, console, Uint8Array, performance, createObject
+from js import document, console, Uint8Array, performance, createObject, resetOutput
 
 import io
 import display
@@ -227,7 +227,7 @@ async def _processing(file):
     estimation, quality_lvl, img_src, exec_time = await _get_sharpness_estimation(file)
     
     if document.getElementById("output").checked == True:
-        await display._display_output(estimation, quality_lvl, img_src, exec_time)
+        display._display_output(estimation, quality_lvl, img_src, exec_time)
 
 
 createObject(ffi.create_proxy(globals()), "pyodideGlobals")
