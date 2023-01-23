@@ -1,5 +1,7 @@
 let imgElement = document.getElementById('imageSrc');
 let inputElement = document.getElementById('file-upload'); 
+let button_valide = document.getElementById('valide');
+
 
 inputElement.addEventListener('change', (e) => {
     imgElement.src = URL.createObjectURL(e.target.files[0]);
@@ -11,7 +13,6 @@ imgElement.onload = function() {
 }
 
 async function main() {
-    let button_valide = document.getElementById('valide');
     src = cv.imread(imgElement);
 
     try {
@@ -40,6 +41,13 @@ async function main() {
     } catch (error) {
         console.error(error);
         console.error("La photo n'est pas valide. Erreur à l'étape de détection du visage.");
+        button_valide.textContent = "La photo n'est pas valide";
+    }
+    try {
+        faceComparison();
+    } catch (error) {
+        console.error(error);
+        console.error("La photo n'est pas valide. Erreur à l'étape de comparaison du visage.");
         button_valide.textContent = "La photo n'est pas valide";
     }
 }

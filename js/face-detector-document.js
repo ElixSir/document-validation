@@ -1,5 +1,6 @@
 const MODEL_URL = '/sprint2_opencv/models' //model directory
 const SCOREMIN = 0.56;
+let faceIDCardDetector;
 /* window.addEventListener("load", function() {
     // code à exécuter lorsque le DOM est prêt
     const faceDocumentDetector = new FaceDocumentDetector();
@@ -19,7 +20,7 @@ function FaceDocumentDetection()
     document.getElementById("face_detection").appendChild(canvas);
     canvas.hidden = true;
 
-    const faceDocumentDetector = new FaceDocumentDetector();
+    faceIDCardDetector = new FaceDocumentDetector();
 }
 
 class FaceDocumentDetector{
@@ -79,7 +80,7 @@ class FaceDocumentDetector{
                 let faceIdY = fullFaceDescriptions[0].detection._box._y;
                 let faceIdWidth = fullFaceDescriptions[0].detection._box._width;
                 let faceIdHeight = fullFaceDescriptions[0].detection._box._height;
-                this.faceDescriptor = fullFaceDescriptions[0].desciptor;
+                this.faceDescriptor = fullFaceDescriptions[0].descriptor;
 
                 let properties = {
                     x: faceIdX,

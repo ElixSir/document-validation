@@ -178,13 +178,22 @@
 
   <div id="face_detection">
     
-    
   </div>
-  <h2 id="score"></h2>
-  <h2 id="resultat_face_detection"></h2>
+  <h2>Score de détection :</h2>
+  <h3 id="score"></h3>
+  <h3 id="resultat_face_detection"></h3>
     
   </div>
 
+  <div class="video-container" id="div">
+    <video id="video"></video>
+    <input type="file" style="display: none;">
+    <img id="img">
+    <canvas id="canvas"></canvas>
+</div>
+
+  <h2 id="resultat_comparaison">Résultat comparaison</h2>
+  <h3 id="score_comparaison"></h3>
 </body>
 
 
@@ -198,6 +207,7 @@
 <script type="text/javascript" src="./js/checking_parasiting_objects.js"></script>
 <script type="text/javascript" src="./js/scoring.js"></script>
 <script src="./js/face-detector-document.js"></script>
+<script src="./js/face-detector-webcam.js"></script>
 <script type="text/javascript" src="./js/main.js"></script>
 
 <!-- Python Functions -->
