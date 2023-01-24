@@ -206,13 +206,15 @@ class FaceWebcamDetector {
         });
     }
 
-
     clearOutput() {
-        clearInterval(this.interval);   
-        this.videoTrack.stop();
+        clearInterval(this.interval);
+        console.log('this.videoTrack', this.videoTrack)
+        if(this.videoTrack != undefined) {
+            console.log('hey');
+            this.videoTrack.stop();
+        }
         cancelAnimationFrame(this.idAnimationFrameStream);      
         this.clearCanvas();
-        
     }
 
     chooseSelfie() {

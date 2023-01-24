@@ -9,6 +9,8 @@ import cv2
 import numpy as np
 from PIL import Image
 
+quality_lvl = 0
+
 class DOM(object):
 
     def __init__(self):
@@ -223,6 +225,7 @@ async def _get_sharpness_estimation(file):
 
     
 async def _processing(file):
+    global quality_lvl
     resetOutput()
     estimation, quality_lvl, img_src, exec_time = await _get_sharpness_estimation(file)
     

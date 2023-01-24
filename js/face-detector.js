@@ -56,17 +56,30 @@ function compareFaces() {
     let idCardFacedetection = faceIDCardDetector.faceDescriptor;
     let selfieVideodetection = faceImageVideoDetector.faceDescriptor;
     let selfieInputDetection = faceImageInputDetector.faceDescriptor;
+    let threshold = 0.55;
     //Il faut mettre avant le cas où l'image est prise par l'input car la webcam a quasiment toujours une valeur faceDescriptor
     if(idCardFacedetection && selfieInputDetection) {
         const distance = faceapi.euclideanDistance(idCardFacedetection, selfieInputDetection);
-        document.getElementById("score_comparaison").innerHTML = "Score : " + distance;
+        document.getElementById("score_comparaison").innerHTML = distance;
         faceImageVideoDetector.clearOutput();
         document.getElementById("video_selfie_text").innerHTML = "";
+        if(distance > threshold) {
+            document.getElementById("final-result").innerHTML = "Utilisateur non reconnu sur la photo d'identité ❌";
+        }
+        else {
+            document.getElementById("final-result").innerHTML = "Utilisateur reconnu sur la photo d'identité ✅";
+        }
     }
     else if(idCardFacedetection && selfieVideodetection) {
         const distance = faceapi.euclideanDistance(idCardFacedetection, selfieVideodetection);
-        document.getElementById("score_comparaison").innerHTML = "Score : " + distance;
+        document.getElementById("score_comparaison").innerHTML = distance;
         faceImageVideoDetector.clearOutput();
         document.getElementById("input_selfie_text").innerHTML = "";
-      }
+        if(distance > threshold) {
+            document.getElementById("final-result").innerHTML = "Utilisateur non reconnu sur la photo d'identité ❌";
+        }
+        else {
+            document.getElementById("final-result").innerHTML = "Utilisateur reconnu sur la photo d'identité ✅";
+        }
+    }
 }

@@ -383,8 +383,7 @@ function affichageFinal() {
         }
     }
     else {
-        console.log("La photo n'est pas valide");
-        button_valide.textContent = "La photo n'est pas valide ❌";
+        throw new Error("La photo n'est pas valide. Erreur à l'étape de détection des objets parasites.");
     }
     
     button_chargement_titre.textContent = "";
