@@ -4,9 +4,15 @@ async function scoring() {
 
     await final_canvas.toBlob((blob) => { 
         let file = new File([blob], "image_processed_after_sprint2.jpg", { type: "image/jpeg" }); // convert canva to file
-        process_sprint1(file);
-    }, 'image/jpeg'); // convert canva to blob
+        process_sprint1(file); // call main function
+        // let quality_lvl = pyodideGlobals.get('quality_lvl'); // quality level of the image
+        let quality_lvl = 1;
+        console.log('quality_lvl:', quality_lvl)
+        if(quality_lvl >= 1) {
+            throw new Error("La photo n'est pas valide. Erreur à l'étape de scoring.");
+        }
 
+    }, 'image/jpeg'); // convert canva to blob
 }
 
 function resetOutput() {

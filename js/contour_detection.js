@@ -256,9 +256,7 @@ function findCorners() {
         foundContour = biggestContourHulled2;
     }
     else {
-        console.error("la photo n'est pas valide");
-        button_valide.textContent = "La photo n'est pas valide";
-        return;
+        throw new Error("La photo n'est pas valide. Erreur à l'étape de détection des contours.");
     }
 
     // Find the corners
