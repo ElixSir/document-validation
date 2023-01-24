@@ -126,7 +126,7 @@ class FaceWebcamDetector{
                         }
                         else{
                             alert("Aucune caméra frontale détectée, veuillez déposer un selfie au format JPEG/PNG");
-                            document.querySelector('input[type="file"]').style.display ="block";
+                            document.getElementById("input_selfie").style.display ="block";
                         }
                     }.bind(this));
                 
