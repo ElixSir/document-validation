@@ -4,7 +4,7 @@ async function scoring() {
 
     await final_canvas.toBlob((blob) => { 
         let file = new File([blob], "image_processed_after_sprint2.jpg", { type: "image/jpeg" }); // convert canva to file
-         process_sprint1(file);
+        process_sprint1(file);
     }, 'image/jpeg'); // convert canva to blob
 
     image = document.getElementById("output_img_scoring");//.removeChild(document.getElementById("output_upload").firstChild);
@@ -23,10 +23,10 @@ function resetOutput() {
 }
 
 
-function createObject(object, variableName){
+function createObject(object, variableName) {
     //Bind a variable whose name is the string variableName
     // to the object called 'object'
     let execString = variableName + " = object"
     console.log("Running `" + execString + "`");
     eval(execString)
-  }
+}

@@ -2,7 +2,6 @@ let imgElement = document.getElementById('imageSrc');
 let inputElement = document.getElementById('file-upload'); 
 let button_valide = document.getElementById('valide');
 
-
 inputElement.addEventListener('change', (e) => {
     imgElement.src = URL.createObjectURL(e.target.files[0]);
 }, false);

@@ -6,8 +6,7 @@ let faceIDCardDetector;
     const faceDocumentDetector = new FaceDocumentDetector();
 });
  */
-function FaceDocumentDetection()
-{
+function FaceDocumentDetection() {
     canvasFinal = document.getElementById('canvasSourceResized');
     var image = document.createElement("img");
     image.setAttribute("src", canvasFinal.toDataURL("image/png").replace("image/png", "image/octet-stream"));
@@ -23,8 +22,7 @@ function FaceDocumentDetection()
     faceIDCardDetector = new FaceDocumentDetector();
 }
 
-class FaceDocumentDetector{
-
+class FaceDocumentDetector {
     static img = document.getElementById("image_face_recognition"); 
     static canvas = document.getElementById("canvas_face_recognition");
     
@@ -32,28 +30,27 @@ class FaceDocumentDetector{
     imgCropped;
     imgCroppedLarge;
 
-    constructor(){
+    constructor() {
         this.img = document.getElementById("image_face_recognition"); 
-        this.loadModels().then( () => this.handleFileUpload());
+        this.loadModels().then(() => this.handleFileUpload());
     }
 
-    handleFileUpload(){
-        /*if(event.target.files.length>0){
+    handleFileUpload() {
+        /*if(event.target.files.length>0) {
             let file = event.target.files[0];
             
         }*/
         this.clearCroppedFace();
-        this.loadImage(this.img.src).then( () => this.detectFaces());
+        this.loadImage(this.img.src).then(() => this.detectFaces());
     }
 
-    async loadModels(){
+    async loadModels() {
         await faceapi.loadTinyFaceDetectorModel(MODEL_URL);
         await faceapi.loadFaceLandmarkModel(MODEL_URL); // model to detect face landmark
         await faceapi.loadFaceRecognitionModel(MODEL_URL);
     }
 
-    async loadImage(url){
-
+    async loadImage(url) {
         const image = new Image();
         image.src = url;
         this.img.src = url;
@@ -64,16 +61,14 @@ class FaceDocumentDetector{
     }
 
     async detectFaces() {
-
         /* Detection */
         let fullFaceDescriptions = await faceapi.detectAllFaces(this.img, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptors();
 
-        if(fullFaceDescriptions && fullFaceDescriptions.length==1){
-
+        if(fullFaceDescriptions && fullFaceDescriptions.length==1) {
             //this.showIdCardCanvas();
 
             //Check la qualité de la détection
-            if(fullFaceDescriptions[0].detection._score && fullFaceDescriptions[0].detection._score >= SCOREMIN){
+            if(fullFaceDescriptions[0].detection._score && fullFaceDescriptions[0].detection._score >= SCOREMIN) {
                 let faceIdX = fullFaceDescriptions[0].detection._box._x;
                 let faceIdY = fullFaceDescriptions[0].detection._box._y;
                 let faceIdWidth = fullFaceDescriptions[0].detection._box._width;
@@ -94,7 +89,7 @@ class FaceDocumentDetector{
                 let ratioWH = faceIdWidth/faceIdHeight;
                 
                 //TODO A recalibrer
-                if(ratioHW<1 && ratioWH<1){
+                if(ratioHW<1 && ratioWH<1) {
                     properties.x = faceIdX*ratioWH;
                     properties.y = faceIdY*ratioWH;
                     properties.width = faceIdWidth*ratioHW;
@@ -107,7 +102,7 @@ class FaceDocumentDetector{
                 //Affichage final
                 let score = fullFaceDescriptions[0].detection._score;
                 console.log(score);
-                if(score>SCOREMIN){
+                if(score>SCOREMIN) {
                     document.getElementById("score").textContent = score;
                     document.getElementById("resultat_face_detection").textContent = "Face detected";
                     console.log("Face detected");
@@ -119,10 +114,8 @@ class FaceDocumentDetector{
         console.log("Face not detected");
     }
 
-    async cropFace(properties){
-
-        if(properties && properties.x && properties.y && properties.width && properties.height){
-           
+    async cropFace(properties) {
+        if(properties && properties.x && properties.y && properties.width && properties.height) {
             let canvas2 = document.getElementById("canvas_face_recognition");
             canvas2.height =properties.height;
             canvas2.width = properties.width;
@@ -136,7 +129,7 @@ class FaceDocumentDetector{
         return null;
     }
 
-    async showIdCardCanvas(){
+    async showIdCardCanvas() {
         console.log(this.img)
         this.canvas = document.getElementById("canvas_face_recognition");
         const ctx = this.canvas.getContext('2d');
@@ -146,8 +139,7 @@ class FaceDocumentDetector{
         console.log(this.canvas)
     }
 
-    async showDetectionResults(fullFaceDescriptions){
-
+    async showDetectionResults(fullFaceDescriptions) {
         let displaySize = {
             width: this.img.width,
             height: this.img.height,
@@ -161,7 +153,7 @@ class FaceDocumentDetector{
     }
 
 
-    async showCroppedFace(base64){
+    async showCroppedFace(base64) {
         console.log("showCroppedFace");
         let imgViewer = document.createElement('img');
         imgViewer.className = "img-results";
@@ -170,11 +162,10 @@ class FaceDocumentDetector{
         console.log(imgViewer);
     }
 
-    async clearCroppedFace(){
+    async clearCroppedFace() {
         const elements = document.getElementsByClassName("img-results");
         while (elements.length > 0) {
             elements[0].remove();
         }
     }
-
 }
