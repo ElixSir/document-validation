@@ -1,228 +1,220 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-  <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-  <style>
-    #output_img_scoring{
-      display: none;
-    }
+  <head>
+    <meta charset="utf-8">
+    <!-- <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" /> -->
+    <link rel="stylesheet" href="./css/pyscript.css"/>
+  </head>
+  <body>
+    <py-config>
+      packages = [
+        "pillow",
+        "numpy", 
+        "opencv-python"
+      ]
 
-    .input_img_scoring{
-      border: solid 2px #000000;
-    }
-  </style>
+      [[fetch]]
+      from = './py/'
+      files = ['display.py']
+    </py-config>
 
-</head>
-<body>
+    <h2>⚙️ Configurations :</h2>
 
-  <py-config>
-    packages = [
-      "pillow",
-      "numpy", 
-      "opencv-python"
-    ]
+    <label for="output">Do you want to see the results of the estimation? </label>
+    <input type="checkbox" id="output" name="output" checked>
 
-    [[fetch]]
-    from = './py/'
-    files = ['display.py']
-  </py-config>
+    <br>
 
-  <h2>⚙️ Configurations :</h2>
+    <label for="resize">Do you want to resize the image? </label>
+    <input type="checkbox" id="resize" name="resize">
 
-  <label for="output">Do you want to see the results of the estimation? </label>
-  <input type="checkbox" id="output" name="output" checked>
+    <input type="number" id="resize_value" class="input_img_scoring" value="800">
 
-  <br>
+    <br>
 
-  <label for="resize">Do you want to resize the image? </label>
-  <input type="checkbox" id="resize" name="resize">
-
-  <input type="number" id="resize_value" class="input_img_scoring" value="800">
-
-  <br>
-
-  <label for="resize_OpenCV">Use OpenCV? (if not, PIL)</label>
-  <input type="checkbox" id="resize_OpenCV" name="resize_OpenCV" checked>
-  
-  <br>
-
-  <img id="imageSrc" alt="No Image" style="display: none;"/>
-  <label for="img-upload"> <b>Choose an image to test (PNG) :</b></label> 
-  <input name="img-upload" class="input_img_scoring" type="file" id="file-upload">
-  
-  
-
-  <!-- Document integrity -->
-
-  <h2>🪪 Integrité du document :</h2>
-  <p id="chargement_titre"></p>
-  <p style="text-indent: 15px; font-style: italic;" id="chargement"></p>
-  <p id="resultat"></p>
-  <h3 id="valide"></h3>
-
-  <div>
-
-    <!--  Debugging -->
-      
-     <!-- <div class="inputoutput">
-      <canvas id="canvasOutput2" ></canvas>
-      <div class="caption">canvasOutput2</div>
-    </div>
-    <div class="inputoutput" >
-      <canvas id="canvasOutput4" ></canvas>
-      <div class="caption">canvasOutput4</div>
-    </div>
-    <div class="inputoutput">
-      <canvas id="canvasOutput5" ></canvas>
-      <div class="caption">canvasOutput5</div>
-    </div>
-    <div class="inputoutput">
-      <canvas id="canvasOutput54" ></canvas>
-      <div class="caption">canvasOutput54</div>
-    </div>
-    <div class="inputoutput">
-      <canvas id="canvasOutput6" ></canvas>
-      <div class="caption">canvasOutput6</div>
-    </div>
-    <div class="inputoutput">
-      <canvas id="canvasOutput7" ></canvas>
-      <div class="caption">canvasOutput7</div>
-    </div>
-    <div class="inputoutput">
-      <canvas id="canvasOutput8" ></canvas>
-      <div class="caption">canvasOutput8</div>
-    </div>
-    <div class="inputoutput">
-      <canvas id="canvasOutput9" ></canvas>
-      <div class="caption">canvasOutput9</div>
-    </div>
-    <div class="inputoutput">
-      <canvas id="canvasOutput10" ></canvas>
-      <div class="caption">canvasOutput10</div>
-    </div> -->
-
-    <div class="inputoutput" hidden>
-      <canvas id="canvasOutput11" ></canvas>
-      <div class="caption">canvasOutput11</div>
-    </div>
-    <div class="inputoutput" hidden>
-      <canvas id="canvasOutput12" ></canvas>
-      <div class="caption">canvasOutput12</div>
-    </div>
-  </div>
-
-  <!-- Fields to test for Version 1 -->
-
-  <div id="CNI_FR_V1_Photo">
-    <img id="bande_haut_bleue_V1_Photo" src="./CNI_FR_V1_Photo/bande_haut_bleue.jpg" hidden>
-    <img id="nationnalite_fr_V1_Photo" src="./CNI_FR_V1_Photo/nationnalite_fr.jpg" hidden>
-    <img id="ne_le_V1_Photo" src="./CNI_FR_V1_Photo/ne_le.jpg" hidden>
-    <img id="nom_V1_Photo" src="./CNI_FR_V1_Photo/nom.jpg" hidden>
-    <img id="numero_CNI_V1_Photo" src="./CNI_FR_V1_Photo/numero_CNI.jpg" hidden>
-    <img id="bas_V1_Photo" src="./CNI_FR_V1_Photo/bas.jpg" hidden>
-  </div>
-
-  <!-- Fields to test for Version 2 -->
-
-  <div id="CNI_FR_V2_Photo">
-    <img id="date_expiration_V2_Photo" src="./CNI_FR_V2_Photo/date_expiration.jpg" hidden>
-    <img id="date_naissance_V2_Photo" src="./CNI_FR_V2_Photo/date_naissance.jpg" hidden>
-    <img id="lieu_naissance_V2_Photo" src="./CNI_FR_V2_Photo/lieu_naissance.jpg" hidden>
-    <img id="nationalite_V2_Photo" src="./CNI_FR_V2_Photo/nationalite.jpg" hidden>
-    <img id="nom_V2_Photo" src="./CNI_FR_V2_Photo/nom.jpg" hidden>
-    <img id="numero_document_V2_Photo" src="./CNI_FR_V2_Photo/numero_document.jpg" hidden>
-    <img id="sexe_V2_Photo" src="./CNI_FR_V2_Photo/sexe.jpg" hidden>
-    <img id="carte_nationale_V2_Photo" src="./CNI_FR_V2_Photo/carte_nationale.jpg" hidden>
-    <img id="prenom_V2_Photo" src="./CNI_FR_V2_Photo/prenom.jpg" hidden>
-    <img id="republique_V2_Photo" src="./CNI_FR_V2_Photo/republique.jpg" hidden>
-  </div>
-  
-  <!-- Fields to practice OCR on them -->
-
-  <canvas id="canvasAffichage1" hidden></canvas>
-  <canvas id="canvasAffichage2" hidden></canvas>
-  <canvas id="canvasAffichage3" hidden></canvas>
-  <canvas id="canvasAffichage4" hidden></canvas>
-  <canvas id="canvasAffichage5" hidden></canvas>
-  <canvas id="canvasAffichage6" hidden></canvas>
-  <canvas id="canvasAffichage7" hidden></canvas>
-  <canvas id="canvasAffichage8" hidden></canvas>
-  <canvas id="canvasAffichage9" hidden></canvas>
-  <canvas id="canvasAffichage10" hidden></canvas>
-  <canvas id="canvasAffichage11" hidden></canvas>
-   
-
-  <canvas id="canvasSourceResized"></canvas>
-
-
-  <!-- Scoring -->
-
-  
-  <br>
-
-  <label for="estimation-result"> <b>Resultat de l'estimation : </b></label> 
-  <div name="estimation-result" id="output_estimation"></div>
-
-  <label for="qualite-result"> <b>Qualité : </b></label> 
-  <div name="qualite-result" id="output_qualite"></div>
-  
-  <label for="exec_time-result"> <b>Temps d'exec (ms) : </b></label> 
-  <div name="exec_time-result" id="output_exec_time"></div>
-
-  <div name="img-uploaded" id="output_upload" style="display: none;"></div>
-
-  <!-- Face detection -->
-
-  <h2>👨‍💼 Détection du visage :</h2>
-
-  <div id="face_detection"></div>
-  <p id="resultat_face_detection"></p>
-  
-  <div style="font-weight: bold;"> Score :</div>
-  <div id="score"></div>
+    <label for="resize_OpenCV">Use OpenCV? (if not, PIL)</label>
+    <input type="checkbox" id="resize_OpenCV" name="resize_OpenCV" checked>
     
-  </div>
+    <br>
 
-  <!-- Face comparison -->
+    <img id="imageSrc" alt="No Image" style="display: none;"/>
+    <label for="img-upload"> <b>Choose an image to test (PNG) :</b></label> 
+    <input name="img-upload" class="input_img_scoring" type="file" id="file-upload">
+    
 
-  <h2>👨‍💼 Comparaison des visages :</h2>
+    <!-- Document integrity -->
 
-  <h3> Comment voulez vous que l'on récupère votre visage ? </h3>
+    <h2>🪪 Integrité du document :</h2>
+    <p id="chargement_titre"></p>
+    <p style="text-indent: 15px; font-style: italic;" id="chargement"></p>
+    <p id="resultat"></p>
+    <h3 id="valide"></h3>
 
-  <h4 id="input_selfie_text"> Chargez une image</h4>
-  <input id="input_selfie" type="file">
-  <div id="face_comparison"></div>
+    <div>
+      <!--  Debugging -->
+        
+      <!-- <div class="inputoutput">
+        <canvas id="canvasOutput2" ></canvas>
+        <div class="caption">canvasOutput2</div>
+      </div>
+      <div class="inputoutput" >
+        <canvas id="canvasOutput4" ></canvas>
+        <div class="caption">canvasOutput4</div>
+      </div>
+      <div class="inputoutput">
+        <canvas id="canvasOutput5" ></canvas>
+        <div class="caption">canvasOutput5</div>
+      </div>
+      <div class="inputoutput">
+        <canvas id="canvasOutput54" ></canvas>
+        <div class="caption">canvasOutput54</div>
+      </div>
+      <div class="inputoutput">
+        <canvas id="canvasOutput6" ></canvas>
+        <div class="caption">canvasOutput6</div>
+      </div>
+      <div class="inputoutput">
+        <canvas id="canvasOutput7" ></canvas>
+        <div class="caption">canvasOutput7</div>
+      </div>
+      <div class="inputoutput">
+        <canvas id="canvasOutput8" ></canvas>
+        <div class="caption">canvasOutput8</div>
+      </div>
+      <div class="inputoutput">
+        <canvas id="canvasOutput9" ></canvas>
+        <div class="caption">canvasOutput9</div>
+      </div>
+      <div class="inputoutput">
+        <canvas id="canvasOutput10" ></canvas>
+        <div class="caption">canvasOutput10</div>
+      </div> -->
 
-  <h4 id="video_selfie_text"> Prenez-vous en selfie</h4>
-  <div class="video-container" id="div">
-    <video id="video"></video>
-    <img id="img">
-    <canvas id="canvas"></canvas>
-  </div>
+      <div class="inputoutput" hidden>
+        <canvas id="canvasOutput11" ></canvas>
+        <div class="caption">canvasOutput11</div>
+      </div>
+      <div class="inputoutput" hidden>
+        <canvas id="canvasOutput12" ></canvas>
+        <div class="caption">canvasOutput12</div>
+      </div>
+    </div>
 
-  <h2 id="resultat_comparaison">👥 Résultat comparaison :</h2>
-  <h3 id="score_comparaison"></h3>
-</body>
+    <!-- Fields to test for Version 1 -->
+
+    <div id="CNI_FR_V1_Photo">
+      <img id="bande_haut_bleue_V1_Photo" src="./CNI_FR_V1_Photo/bande_haut_bleue.jpg" hidden>
+      <img id="nationnalite_fr_V1_Photo" src="./CNI_FR_V1_Photo/nationnalite_fr.jpg" hidden>
+      <img id="ne_le_V1_Photo" src="./CNI_FR_V1_Photo/ne_le.jpg" hidden>
+      <img id="nom_V1_Photo" src="./CNI_FR_V1_Photo/nom.jpg" hidden>
+      <img id="numero_CNI_V1_Photo" src="./CNI_FR_V1_Photo/numero_CNI.jpg" hidden>
+      <img id="bas_V1_Photo" src="./CNI_FR_V1_Photo/bas.jpg" hidden>
+    </div>
+
+    <!-- Fields to test for Version 2 -->
+
+    <div id="CNI_FR_V2_Photo">
+      <img id="date_expiration_V2_Photo" src="./CNI_FR_V2_Photo/date_expiration.jpg" hidden>
+      <img id="date_naissance_V2_Photo" src="./CNI_FR_V2_Photo/date_naissance.jpg" hidden>
+      <img id="lieu_naissance_V2_Photo" src="./CNI_FR_V2_Photo/lieu_naissance.jpg" hidden>
+      <img id="nationalite_V2_Photo" src="./CNI_FR_V2_Photo/nationalite.jpg" hidden>
+      <img id="nom_V2_Photo" src="./CNI_FR_V2_Photo/nom.jpg" hidden>
+      <img id="numero_document_V2_Photo" src="./CNI_FR_V2_Photo/numero_document.jpg" hidden>
+      <img id="sexe_V2_Photo" src="./CNI_FR_V2_Photo/sexe.jpg" hidden>
+      <img id="carte_nationale_V2_Photo" src="./CNI_FR_V2_Photo/carte_nationale.jpg" hidden>
+      <img id="prenom_V2_Photo" src="./CNI_FR_V2_Photo/prenom.jpg" hidden>
+      <img id="republique_V2_Photo" src="./CNI_FR_V2_Photo/republique.jpg" hidden>
+    </div>
+    
+    <!-- Fields to practice OCR on them -->
+
+    <canvas id="canvasAffichage1" hidden></canvas>
+    <canvas id="canvasAffichage2" hidden></canvas>
+    <canvas id="canvasAffichage3" hidden></canvas>
+    <canvas id="canvasAffichage4" hidden></canvas>
+    <canvas id="canvasAffichage5" hidden></canvas>
+    <canvas id="canvasAffichage6" hidden></canvas>
+    <canvas id="canvasAffichage7" hidden></canvas>
+    <canvas id="canvasAffichage8" hidden></canvas>
+    <canvas id="canvasAffichage9" hidden></canvas>
+    <canvas id="canvasAffichage10" hidden></canvas>
+    <canvas id="canvasAffichage11" hidden></canvas>
+    
+
+    <canvas id="canvasSourceResized"></canvas>
 
 
-<!-- Javascrits Library -->
-<script type="text/javascript" src="libs/opencv-4.7.0.js"></script>
-<script src='https://unpkg.com/tesseract.js@4.0.0/dist/tesseract.min.js'></script>
-<script src="./libs/face-api.min.js"></script>
+    <!-- Scoring -->
+    
+    <br>
 
-<!-- Javascrits Functions -->
-<script type="text/javascript" src="./js/contour_detection.js"></script>
-<script type="text/javascript" src="./js/checking_parasiting_objects.js"></script>
-<script type="text/javascript" src="./js/scoring.js"></script>
-<script src="./js/face-detector-document.js"></script>
-<script src="./js/face-detector-webcam.js"></script>
-<script src="./js/face-detector.js"></script>
-<script type="text/javascript" src="./js/main.js"></script>
+    <!-- <label for="exec_time-result"> <b>Temps d'exec (ms) : </b></label>  -->
+    <div> Temps d'exec (ms) :</div>
+    <div name="exec_time-result" id="output_exec_time"></div> 
 
-<!-- Python Functions -->
-<py-script src="./py/quality_estimation.py"></py-script>
-<py-script src="./py/display.py"></py-script>
-  
+    <br>
+    <br>
+
+    <label for="estimation-result"> <b>Score de la qualité de l'image : </b></label> 
+    <div name="estimation-result" id="output_estimation"></div>
+
+    <br>
+
+    <label for="qualite-result"> <b>Qualité : </b></label> 
+    <div name="qualite-result" id="output_qualite"></div>
+
+
+    <!-- Face detection -->
+
+    <h2>👨‍💼 Détection du visage :</h2>
+
+    <div id="face_detection"></div>
+    <p id="resultat_face_detection"></p>
+    
+    <div style="font-weight: bold;"> Score de detection du visage :</div>
+    <div id="score"></div>
+      
+    </div>
+
+    <!-- Face comparison -->
+
+    <h2>👥 Comparaison des visages :</h2>
+
+    <h3> Comment voulez vous que l'on récupère votre visage ? </h3>
+
+    <h4 id="input_selfie_text"> Chargez une image</h4>
+    <input id="input_selfie" type="file">
+    <div id="face_comparison"></div>
+
+    <h4 id="video_selfie_text"> Prenez-vous en selfie</h4>
+    <div class="video-container" id="div">
+        <video id="video"></video>
+        <img id="img">
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <div style="font-weight: bold;"> Score de comparaison :</div>
+    <div id="score_comparaison"></div>
+
+
+    <!-- Javascript Library -->
+    <script type="text/javascript" src="libs/opencv-4.7.0.js"></script>
+    <script src='https://unpkg.com/tesseract.js@4.0.0/dist/tesseract.min.js'></script>
+    <script src="./libs/face-api.min.js"></script>
+    <!-- <script defer src="https://pyscript.net/latest/pyscript.js"></script> -->
+    <script defer src="./libs/pyscript.js"></script>
+
+    <!-- Javascript Functions -->
+    <script type="text/javascript" src="./js/contour_detection.js"></script>
+    <script type="text/javascript" src="./js/checking_parasiting_objects.js"></script>
+    <script type="text/javascript" src="./js/scoring.js"></script>
+    <script src="./js/face-detector-document.js"></script>
+    <script src="./js/face-detector-webcam.js"></script>
+    <script src="./js/face-detector.js"></script>
+    <script type="text/javascript" src="./js/main.js"></script>
+
+    <!-- Python Functions -->
+    <py-script src="./py/quality_estimation.py"></py-script>
+    <py-script src="./py/display.py"></py-script>
+  </body>
 </html>

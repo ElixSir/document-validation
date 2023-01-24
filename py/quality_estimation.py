@@ -215,7 +215,7 @@ async def _get_sharpness_estimation(file):
     exec_time = str(elapsed)
 
     seuil_haut = 1.05 # > good quality 
-    seuil_moyen = 0.98 # > average quality
+    seuil_moyen = 0.95 # > average quality
     
     quality_level = _estimate_result(estimation, seuil_haut, seuil_moyen) # 1 - 2 - 3 
 

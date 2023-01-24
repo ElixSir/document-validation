@@ -11,8 +11,7 @@ let faceIDCardDetector
 let faceImageInputDetector;
 
 
-function FaceDocumentDetection()
-{
+function FaceDocumentDetection() {
     let canvasFinal = document.getElementById('canvasSourceResized');
     let idImage = "image_face_recognition";
     let idCanvas = "canvas_face_recognition";
@@ -31,9 +30,6 @@ function FaceDocumentDetection()
 
     faceIDCardDetector = new FaceDocumentDetector({param1: idImage, param2: idCanvas}, idDiv);
 }
-
-
-
 
 function faceComparison() {
     let idDiv = "face_comparison";
@@ -56,20 +52,18 @@ function faceComparison() {
     faceImageVideoDetector = new FaceWebcamDetector(); 
 };
 
-
-function compareFaces()
-{
+function compareFaces() {
     let idCardFacedetection = faceIDCardDetector.faceDescriptor;
     let selfieVideodetection = faceImageVideoDetector.faceDescriptor;
     let selfieInputDetection = faceImageInputDetector.faceDescriptor;
     //Il faut mettre avant le cas où l'image est prise par l'input car la webcam a quasiment toujours une valeur faceDescriptor
-    if(idCardFacedetection && selfieInputDetection){
+    if(idCardFacedetection && selfieInputDetection) {
         const distance = faceapi.euclideanDistance(idCardFacedetection, selfieInputDetection);
         document.getElementById("score_comparaison").innerHTML = "Score : " + distance;
         faceImageVideoDetector.clearOutput();
         document.getElementById("video_selfie_text").innerHTML = "";
     }
-    else if(idCardFacedetection && selfieVideodetection){
+    else if(idCardFacedetection && selfieVideodetection) {
         const distance = faceapi.euclideanDistance(idCardFacedetection, selfieVideodetection);
         document.getElementById("score_comparaison").innerHTML = "Score : " + distance;
         faceImageVideoDetector.clearOutput();

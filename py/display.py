@@ -12,7 +12,4 @@ def _display_result(level):
 def _display_output(estimation, quality_lvl, img_src, exec_time):
     _display_result(quality_lvl)
     Element('output_estimation').write(estimation)
-    Element('output_exec_time').write(exec_time) 
-    new_image = document.createElement('img')
-    new_image.src = window.URL.createObjectURL(img_src)
-    document.getElementById("output_upload").appendChild(new_image)
+    Element('output_exec_time').write(exec_time)

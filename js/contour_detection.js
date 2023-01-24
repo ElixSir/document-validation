@@ -30,7 +30,6 @@ let biggestContourHulled;
 
 let contourSelected;
 
-
 let contours_poly;
 let boundRect;
 
@@ -41,8 +40,6 @@ let contourRatioThreshold = 1.5;
 let contourRatio;
 
 
-
-
 function contourDetection(src) {
     initMats();
 
@@ -51,11 +48,8 @@ function contourDetection(src) {
     resizeImage();
 
     filterPreProcess();
-
-    // apply filters
     filtersProcess();
 
-    // Create convex hulls from different contours
     createRect();
 
     findLargestContourAndHullRect();
@@ -80,7 +74,7 @@ function initMats() {
 }
 
 function resizeImage() {
-    if(imgElement.width > imgElement.height){
+    if(imgElement.width > imgElement.height) {
         resizeCoef=500/imgElement.height;
     }
     else {
@@ -155,7 +149,7 @@ function getContoursRatio(src) {
     cv.findContours(mat, c, h, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
 
     let ratio;
-    if(imgElement.width > imgElement.height){
+    if(imgElement.width > imgElement.height) {
         ratio = c.size()/imgElement.width;
     }
     else {
@@ -197,7 +191,7 @@ function createRect() {
 }
 
 /**
- * Draw all hulls + the bigest hull alone on the image
+ * Draw all hulls + the biggest hull alone on the image
  * Compare bounding rect area of all contours (instead of perim or area of the contour)
  */
 function findLargestContourAndHullRect() {
@@ -221,7 +215,7 @@ function findLargestContourAndHullRect() {
         let perimCurCtr = rect.width*rect.height;
         let perimBigCtr = rectSelected.width*rectSelected.height;
 
-        if(perimCurCtr >= perimBigCtr){
+        if(perimCurCtr >= perimBigCtr) {
             contourSelected=contours.get(i).clone();
         }
     }
@@ -229,7 +223,7 @@ function findLargestContourAndHullRect() {
     cv.cvtColor(img3, img3, cv.COLOR_BGR2RGB)
     //cv.imshow('canvasOutput9', img3);
 
-    // Create an empty MatVector and put the bigest contour in it
+    // Create an empty MatVector and put the biggest contour in it
     let contourVec = new cv.MatVector();
     contourVec.push_back(contourSelected);
 
@@ -241,7 +235,7 @@ function findLargestContourAndHullRect() {
     cv.approxPolyDP(biggestContourHulled, biggestContourHulled2, 100, true);
     hull2.push_back(biggestContourHulled2);
 
-    // Draw the bigest contour hulled on the image
+    // Draw the biggest contour hulled on the image
     cv.drawContours(img5, hull2, 0, green, 5, cv.LINE_8, hierarchy, 0);
     cv.cvtColor(img5, img5, cv.COLOR_BGR2RGB, 0);
     //cv.imshow('canvasOutput10', img5);
@@ -250,10 +244,10 @@ function findLargestContourAndHullRect() {
 /**
  * Find the corners of the document + crop + homography + produce the cropped image in a new canvas
  */
-function findCorners(){
+function findCorners() {
     let contourVec = new cv.MatVector();
     contourVec.push_back(biggestContourHulled2);
-    // Draw the bigest contour on the image
+    // Draw the biggest contour on the image
     cv.drawContours(img4, contourVec, 0, green, 3, cv.LINE_8, hierarchy, 0);
     cv.cvtColor(img4, img4, cv.COLOR_BGR2RGB)
     //cv.imshow('canvasOutput54', img4);
@@ -261,7 +255,7 @@ function findCorners(){
     if (biggestContourHulled2.rows == 4) {
         foundContour = biggestContourHulled2;
     }
-    else{
+    else {
         console.error("la photo n'est pas valide");
         button_valide.textContent = "La photo n'est pas valide";
         return;
@@ -294,15 +288,11 @@ function findCorners(){
 
     let finalDst = new cv.Mat();
 
-    // row, col, type, array
-    // For example, CV_8UC1 means a 8-bit single-channel array, CV_32FC2 means a 2-channel (complex) floating-point array.
-    // let finalDestCoords = cv.matFromArray(4, 1, cv.CV_32FC2, [0, 0, theWidth - 1, 0, theWidth - 1, theHeight - 1, 0, theHeight - 1]);
-    // ?, ?, taille haut, ?, taille bas, taille droite, ?, taille gauche
     let finalDestCoords = cv.matFromArray(4, 1, cv.CV_32FC2, [0, 0, theWidth/resizeCoef, 0, theWidth/resizeCoef, theHeight/resizeCoef, 0, theHeight/resizeCoef]);
     let srcCoords = cv.matFromArray(4, 1, cv.CV_32FC2, [tl.corner.x/resizeCoef, tl.corner.y/resizeCoef, tr.corner.x/resizeCoef, tr.corner.y/resizeCoef, br.corner.x/resizeCoef, br.corner.y/resizeCoef, bl.corner.x/resizeCoef, bl.corner.y/resizeCoef]);
     let dsize = new cv.Size(theWidth/resizeCoef, theHeight/resizeCoef);
     
-    // corners + dimentions = perspective
+    // corners + dimensions = perspective
     let M = cv.getPerspectiveTransform(srcCoords, finalDestCoords)
     
     // Apply perspective transformation
@@ -314,7 +304,5 @@ function findCorners(){
     }
     cv.imshow('canvasOutput12', finalDst);
 
-    return finalDst;
-    
-    
+    return finalDst;   
 }
