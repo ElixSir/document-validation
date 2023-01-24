@@ -68,7 +68,7 @@ function compareFaces() {
         const distance = faceapi.euclideanDistance(idCardFacedetection, selfieInputDetection);
         document.getElementById("score_comparaison").innerHTML = distance;
         faceImageVideoDetector.clearOutput();
-        document.getElementById("video_selfie_text").innerHTML = "";
+        document.getElementById("video_selfie_text").style.display = "none";
         if(distance > threshold) {
             document.getElementById("final-result").innerHTML = "Utilisateur non reconnu sur la photo d'identité ❌";
         }

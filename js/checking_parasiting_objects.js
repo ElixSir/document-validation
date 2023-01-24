@@ -374,13 +374,10 @@ function affichageFinal() {
     if(V1 == true || V2 == true) {
         console.log("La photo est valide");
         cv.imshow('canvasSourceResized', source_resized);
+
+        button_valide.textContent = "La photo est valide ✅";
         
-        if (V1 == true) {
-            button_valide.textContent = "La photo 1 est valide ✅";
-        }
-        else {
-            button_valide.textContent = "La photo 2 est valide ✅";
-        }
+
     }
     else {
         throw new Error("La photo n'est pas valide. Erreur à l'étape de détection des objets parasites.");
