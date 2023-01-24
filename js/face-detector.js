@@ -4,6 +4,8 @@ const SCOREMIN = 0.56;
 const SELFIE_THRESHOLD_PC = 0.65;
 const SELFIE_THRESHOLD_MOBILE = 0.7;
 const LIMIT_DETECTION=3;
+const RATIO_DISPLAY_MOBILE = 1.8;
+const RATIO_DISPLAY_PC = 1.2;
 const MSG1 = "Positionnez votre visage dans le cadre";
 const MSG2 = "Le cercle sera entouré en vert, veuillez ne plus bouger pour effectuer la capture";
 let faceImageVideoDetector;
@@ -54,7 +56,11 @@ function faceComparison() {
 
 function compareFaces() {
     let idCardFacedetection = faceIDCardDetector.faceDescriptor;
-    let selfieVideodetection = faceImageVideoDetector.faceDescriptor;
+    let selfieVideodetection;
+    if(faceImageVideoDetector.selfie != undefined)
+    {
+        selfieVideodetection = faceImageVideoDetector.selfie.faceDescriptor;
+    }
     let selfieInputDetection = faceImageInputDetector.faceDescriptor;
     let threshold = 0.55;
     //Il faut mettre avant le cas où l'image est prise par l'input car la webcam a quasiment toujours une valeur faceDescriptor
