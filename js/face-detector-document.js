@@ -101,13 +101,12 @@ class FaceDocumentDetector {
                     document.getElementById("resultat_face_detection").textContent = "Face detected";
                     console.log("Face detected");
                     compareFaces();
-
                     return;
                 }
             }
         }
         document.getElementById("resultat_face_detection").textContent = "Face not detected";
-        console.log("Face not detected");
+        throw new Error("La photo n'est pas valide. Erreur à l'étape de détection du visage.");
     }
 
     async cropFace(properties) {

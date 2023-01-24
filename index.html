@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <!-- <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" /> -->
     <link rel="stylesheet" href="./css/pyscript.css"/>
+    <link rel="stylesheet" href="./css/style.css"/>
   </head>
   <body>
     <py-config>
@@ -28,7 +29,7 @@
     <label for="resize">Do you want to resize the image? </label>
     <input type="checkbox" id="resize" name="resize">
 
-    <input type="number" id="resize_value" class="input_img_scoring" value="800">
+    <input type="number" id="resize_value" class="border-style" value="800">
 
     <br>
 
@@ -39,7 +40,7 @@
 
     <img id="imageSrc" alt="No Image" style="display: none;"/>
     <label for="img-upload"> <b>Choose an image to test (PNG) :</b></label> 
-    <input name="img-upload" class="input_img_scoring" type="file" id="file-upload">
+    <input name="img-upload" class="border-style" type="file" id="file-upload">
     
 
     <!-- Document integrity -->
@@ -183,7 +184,7 @@
     <h3> Comment voulez vous que l'on récupère votre visage ? </h3>
 
     <h4 id="input_selfie_text"> Chargez une image</h4>
-    <input id="input_selfie" type="file">
+    <input id="input_selfie" class="border-style" type="file">
     <div id="face_comparison"></div>
 
     <h4 id="video_selfie_text"> Prenez-vous en selfie</h4>
@@ -195,6 +196,8 @@
 
     <div style="font-weight: bold;"> Score de comparaison :</div>
     <div id="score_comparaison"></div>
+
+    <div id="final-result"></div>
 
 
     <!-- Javascript Library -->

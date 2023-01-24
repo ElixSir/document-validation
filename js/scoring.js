@@ -1,5 +1,6 @@
 async function scoring() {
     let process_sprint1 = pyodideGlobals.get('_processing'); // get main function 
+    let threshold = 2;
     final_canvas = document.getElementById('canvasSourceResized'); // get the canva 
 
     await final_canvas.toBlob((blob) => { 
@@ -8,10 +9,9 @@ async function scoring() {
         // let quality_lvl = pyodideGlobals.get('quality_lvl'); // quality level of the image
         let quality_lvl = 1;
         console.log('quality_lvl:', quality_lvl)
-        if(quality_lvl >= 1) {
+        if(quality_lvl >= 2) {
             throw new Error("La photo n'est pas valide. Erreur à l'étape de scoring.");
         }
-
     }, 'image/jpeg'); // convert canva to blob
 }
 
