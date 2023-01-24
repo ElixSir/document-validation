@@ -1,50 +1,42 @@
-// const MODEL_URL = '/sprint2_opencv/models' //model directory
-const MODEL_URL = './models' //model directory
-const SCOREMIN = 0.56;
-let faceIDCardDetector;
-/* window.addEventListener("load", function() {
-    // code à exécuter lorsque le DOM est prêt
-    const faceDocumentDetector = new FaceDocumentDetector();
-});
- */
-function FaceDocumentDetection()
-{
-    canvasFinal = document.getElementById('canvasSourceResized');
-    var image = document.createElement("img");
-    image.setAttribute("src", canvasFinal.toDataURL("image/png").replace("image/png", "image/octet-stream"));
-    image.setAttribute("id", "image_face_recognition");
-    document.getElementById("face_detection").appendChild(image);
-    image.hidden = true;
-
-    var canvas = document.createElement("CANVAS");
-    canvas.setAttribute("id", "canvas_face_recognition");
-    document.getElementById("face_detection").appendChild(canvas);
-    canvas.hidden = true;
-
-    faceIDCardDetector = new FaceDocumentDetector();
-}
-
 class FaceDocumentDetector{
 
-    static img = document.getElementById("image_face_recognition"); 
-    static canvas = document.getElementById("canvas_face_recognition");
-    
+    img; 
+    canvas;
+    result_id;
     faceDescriptor;
     imgCropped;
     imgCroppedLarge;
 
-    constructor(){
-        this.img = document.getElementById("image_face_recognition"); 
-        this.loadModels().then( () => this.handleFileUpload());
+    constructor(options, resultat_id){
+        let img_id = options.param1 || 'default value';
+        let canvas_id = options.param2 || 'default value';
+        let input_id = options.param3 || 'default value';
+
+        this.result_id = resultat_id;
+        this.img = document.getElementById(img_id); 
+        this.canvas = document.getElementById(canvas_id);
+        if(input_id == 'default value'){
+
+            this.loadModels().then( () => this.handleFileUpload());
+        }
+        else{
+            let input = document.getElementById(input_id);
+            input.addEventListener('change', this.handleFileUploadInput.bind(this));
+            this.loadModels();
+        }
     }
 
     handleFileUpload(){
-        /*if(event.target.files.length>0){
-            let file = event.target.files[0];
-            
-        }*/
-        this.clearCroppedFace();
+        //this.clearCroppedFace();
         this.loadImage(this.img.src).then( () => this.detectFaces());
+    }
+
+    handleFileUploadInput(event){
+        if(event.target.files.length>0){
+            let file = event.target.files[0];
+            //this.clearCroppedFace();
+            this.loadImage(URL.createObjectURL(file)).then( () => this.detectFaces());
+        }
     }
 
     async loadModels(){
@@ -114,6 +106,8 @@ class FaceDocumentDetector{
                     document.getElementById("score").textContent = score;
                     document.getElementById("resultat_face_detection").textContent = "Face detected";
                     console.log("Face detected");
+                    compareFaces();
+
                     return;
                 }
             }
@@ -141,7 +135,6 @@ class FaceDocumentDetector{
 
     async showIdCardCanvas(){
         console.log(this.img)
-        this.canvas = document.getElementById("canvas_face_recognition");
         const ctx = this.canvas.getContext('2d');
         this.canvas.width=this.img.width;
         this.canvas.height=this.img.height;
@@ -165,12 +158,10 @@ class FaceDocumentDetector{
 
 
     async showCroppedFace(base64){
-        console.log("showCroppedFace");
         let imgViewer = document.createElement('img');
         imgViewer.className = "img-results";
         imgViewer.src = base64;
-        document.getElementById("face_detection").appendChild(imgViewer);
-        console.log(imgViewer);
+        document.getElementById(this.result_id).appendChild(imgViewer);
     }
 
     async clearCroppedFace(){

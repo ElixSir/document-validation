@@ -185,9 +185,19 @@
     
   </div>
 
+  <!-- Face comparison -->
+
+  <h2>👨‍💼 Comparaison des visages :</h2>
+
+  <h3> Comment voulez vous que l'on récupère votre visage ? </h3>
+
+  <h4 id="input_selfie_text"> Chargez une image</h4>
+  <input id="input_selfie" type="file">
+  <div id="face_comparison"></div>
+
+  <h4 id="video_selfie_text"> Prenez-vous en selfie</h4>
   <div class="video-container" id="div">
     <video id="video"></video>
-    <input id="input_selfie" type="file" style="display: none;">
     <img id="img">
     <canvas id="canvas"></canvas>
   </div>
@@ -208,6 +218,7 @@
 <script type="text/javascript" src="./js/scoring.js"></script>
 <script src="./js/face-detector-document.js"></script>
 <script src="./js/face-detector-webcam.js"></script>
+<script src="./js/face-detector.js"></script>
 <script type="text/javascript" src="./js/main.js"></script>
 
 <!-- Python Functions -->
