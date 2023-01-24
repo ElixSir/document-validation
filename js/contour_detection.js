@@ -318,7 +318,3 @@ function findCorners(){
     
     
 }
-
-function onOpenCvReady() {
-  document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
-}
