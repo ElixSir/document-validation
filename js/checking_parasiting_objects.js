@@ -1,5 +1,4 @@
 // V A R I A B L E S    G L O B A L E S
-
 var compteurImage = 0;
 var compteur_OCR = 0;
 var start;
@@ -10,9 +9,6 @@ var V2;
 var button_chargement_titre = document.getElementById('chargement_titre');
 let button_chargement = document.getElementById('chargement');
 var source_resized;
-
-
-
 
 //main function
 async function checkingParasitingObjects(source_immaculate) {

@@ -1,5 +1,4 @@
-class FaceDocumentDetector{
-
+class FaceDocumentDetector {
     img; 
     canvas;
     result_id;
@@ -7,7 +6,7 @@ class FaceDocumentDetector{
     imgCropped;
     imgCroppedLarge;
 
-    constructor(options, resultat_id){
+    constructor(options, resultat_id) {
         let img_id = options.param1 || 'default value';
         let canvas_id = options.param2 || 'default value';
         let input_id = options.param3 || 'default value';
@@ -15,31 +14,31 @@ class FaceDocumentDetector{
         this.result_id = resultat_id;
         this.img = document.getElementById(img_id); 
         this.canvas = document.getElementById(canvas_id);
-        if(input_id == 'default value'){
+        if(input_id == 'default value') {
 
             this.loadModels().then( () => this.handleFileUpload());
         }
-        else{
+        else {
             let input = document.getElementById(input_id);
             input.addEventListener('change', this.handleFileUploadInput.bind(this));
             this.loadModels();
         }
     }
 
-    handleFileUpload(){
+    handleFileUpload() {
         //this.clearCroppedFace();
         this.loadImage(this.img.src).then( () => this.detectFaces());
     }
 
-    handleFileUploadInput(event){
-        if(event.target.files.length>0){
+    handleFileUploadInput(event) {
+        if(event.target.files.length>0) {
             let file = event.target.files[0];
             //this.clearCroppedFace();
             this.loadImage(URL.createObjectURL(file)).then( () => this.detectFaces());
         }
     }
 
-    async loadModels(){
+    async loadModels() {
         await faceapi.loadTinyFaceDetectorModel(MODEL_URL);
         await faceapi.loadFaceLandmarkModel(MODEL_URL); // model to detect face landmark
         await faceapi.loadFaceRecognitionModel(MODEL_URL);
@@ -149,7 +148,7 @@ class FaceDocumentDetector{
     }
 
 
-    async showCroppedFace(base64){
+    async showCroppedFace(base64) {
         let imgViewer = document.createElement('img');
         imgViewer.className = "img-results";
         imgViewer.src = base64;

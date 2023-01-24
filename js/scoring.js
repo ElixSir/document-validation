@@ -9,14 +9,11 @@ async function scoring() {
 
 }
 
-
-
 function resetOutput() {
     document.getElementById('output_estimation').innerHTML = "";
     document.getElementById('output_exec_time').innerHTML = "";
     document.getElementById('output_qualite').innerHTML = "";
 }
-
 
 function createObject(object, variableName) {
     //Bind a variable whose name is the string variableName

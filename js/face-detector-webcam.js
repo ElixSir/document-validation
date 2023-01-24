@@ -1,5 +1,4 @@
-class FaceWebcamDetector{
-
+class FaceWebcamDetector {
     resolutionWidthWindow;
     resolutionHeightWindow;
     videoInput;
@@ -192,7 +191,7 @@ class FaceWebcamDetector{
                 }
 
 
-                if(this.detectionArray.length==LIMIT_DETECTION){
+                if(this.detectionArray.length==LIMIT_DETECTION) {
                     //console.log(this.detectionArray);
                     this.selfie = this.chooseSelfie();
                     //console.log(this.selfie);     
@@ -208,7 +207,7 @@ class FaceWebcamDetector{
     }
 
 
-    clearOutput(){
+    clearOutput() {
         clearInterval(this.interval);   
         this.videoTrack.stop();
         cancelAnimationFrame(this.idAnimationFrameStream);      
@@ -216,7 +215,7 @@ class FaceWebcamDetector{
         
     }
 
-    chooseSelfie(){
+    chooseSelfie() {
         let image = new Object();
         image.score = 0;
         for(let i=0; i<this.detectionArray.length; i++) {
@@ -334,7 +333,7 @@ class FaceWebcamDetector{
     }
 
     async cropFace(properties) {
-        if(properties && properties.x && properties.y && properties.width && properties.height){
+        if(properties && properties.x && properties.y && properties.width && properties.height) {
            
             let canvas2 = document.createElement('canvas');
             canvas2.height =properties.height;
