@@ -7,8 +7,6 @@ async function scoring() {
         process_sprint1(file);
     }, 'image/jpeg'); // convert canva to blob
 
-    image = document.getElementById("output_img_scoring");//.removeChild(document.getElementById("output_upload").firstChild);
-    console.log(image);
 }
 
 
@@ -17,9 +15,6 @@ function resetOutput() {
     document.getElementById('output_estimation').innerHTML = "";
     document.getElementById('output_exec_time').innerHTML = "";
     document.getElementById('output_qualite').innerHTML = "";
-    /*if (document.getElementById("output_upload").firstChild) {
-        document.getElementById("output_upload").removeChild(document.getElementById("output_upload").firstChild);
-    } */
 }
 
 

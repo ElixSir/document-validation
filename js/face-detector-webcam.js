@@ -1,29 +1,5 @@
-//const MODEL_URL = './models' //model directory GIT
-//const MODEL_URL = '/faceapi.js/models';
+class FaceWebcamDetector{
 
-const SELFIE_THRESHOLD_PC = 0.65;
-const SELFIE_THRESHOLD_MOBILE = 0.7;
-const LIMIT_DETECTION=3;
-const MSG1 = "Positionnez votre visage dans le cadre";
-const MSG2 = "Le cercle sera entouré en vert, veuillez ne plus bouger pour effectuer la capture";
-let faceImageDetector;
-
-function faceComparison() {
-    //document.querySelector('input[type="file"]').style.display ="none";
-    faceImageDetector = new FaceWebcamDetector(); 
-};
-
-function compareFaces() {
-    let idCardFacedetection = faceIDCardDetector.faceDescriptor;
-    let selfieFacedetection = faceImageDetector.faceDescriptor;
-    if(idCardFacedetection && selfieFacedetection) {
-        // Using Euclidean distance to comapare face descriptions
-        const distance = faceapi.euclideanDistance(idCardFacedetection, selfieFacedetection);
-        document.getElementById("score_comparaison").innerHTML = "Score : " + distance;
-    }
-}
-
-class FaceWebcamDetector {
     resolutionWidthWindow;
     resolutionHeightWindow;
     videoInput;
@@ -32,6 +8,7 @@ class FaceWebcamDetector {
     canvas;
     faceDescriptor;
     isValidate;
+    interval;
 
     detection;
     detectionArray;
@@ -120,7 +97,7 @@ class FaceWebcamDetector {
                         }
                         else {
                             alert("Aucune caméra frontale détectée, veuillez déposer un selfie au format JPEG/PNG");
-                            document.getElementById("input_selfie").style.display ="block";
+                            //document.getElementById("input_selfie").style.display ="block";
                         }
                     }.bind(this));
                 
@@ -154,7 +131,8 @@ class FaceWebcamDetector {
 
             let first=true;
             
-            let interval = setInterval( async () => {
+
+            this.interval = setInterval( async () => {
 
                 let object1 = new Map();
 
@@ -213,18 +191,15 @@ class FaceWebcamDetector {
                     this.detectionArray.splice(0,this.detectionArray.length);      
                 }
 
-                if(this.detectionArray.length==LIMIT_DETECTION) {                         
-                    clearInterval(interval);
 
-                    console.log(this.detectionArray);
-                                        
+                if(this.detectionArray.length==LIMIT_DETECTION){
+                    //console.log(this.detectionArray);
                     this.selfie = this.chooseSelfie();
-                    console.log(this.selfie);   
+                    //console.log(this.selfie);     
+                    this.showSelfie();         
+                    this.clearOutput();
+                    document.getElementById('input_selfie').style.display ="none";
                     
-                    this.videoTrack.stop();
-                    cancelAnimationFrame(this.idAnimationFrameStream);      
-                    this.clearCanvas();
-                    this.showSelfie();
                 }
 
             }, 2000);
@@ -232,7 +207,16 @@ class FaceWebcamDetector {
         });
     }
 
-    chooseSelfie() {
+
+    clearOutput(){
+        clearInterval(this.interval);   
+        this.videoTrack.stop();
+        cancelAnimationFrame(this.idAnimationFrameStream);      
+        this.clearCanvas();
+        
+    }
+
+    chooseSelfie(){
         let image = new Object();
         image.score = 0;
         for(let i=0; i<this.detectionArray.length; i++) {
