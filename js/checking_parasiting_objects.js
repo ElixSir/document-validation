@@ -424,15 +424,15 @@ function affichageFinal()
     cv.imshow('canvasSourceResized', source_resized);
     
     if (V1 == true){
-      button_valide.textContent = "La photo 1 est valide";
+      button_valide.textContent = "La photo 1 est valide ✅";
     }
     else{
-      button_valide.textContent = "La photo 2 est valide";
+      button_valide.textContent = "La photo 2 est valide ✅";
     }
   }
   else{
-    console.log("La photo n'est pas valide");
-    button_valide.textContent = "La photo n'est pas valide";
+    console.log("La photo n'est pas valide ❌");
+    button_valide.textContent = "La photo n'est pas valide ❌";
   }
   
   button_chargement_titre.textContent = "";

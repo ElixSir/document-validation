@@ -1,4 +1,5 @@
-const MODEL_URL = '/sprint2_opencv/models' //model directory
+// const MODEL_URL = '/sprint2_opencv/models' //model directory
+const MODEL_URL = './models' //model directory
 const SCOREMIN = 0.56;
 let faceIDCardDetector;
 /* window.addEventListener("load", function() {
