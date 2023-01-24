@@ -227,7 +227,6 @@ class FaceWebcamDetector {
         clearInterval(this.interval);
         console.log('this.videoTrack', this.videoTrack)
         if(this.videoTrack != undefined) {
-            console.log('hey');
             this.videoTrack.stop();
         }
         cancelAnimationFrame(this.idAnimationFrameStream);      
