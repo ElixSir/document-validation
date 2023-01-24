@@ -21,7 +21,7 @@ function compareFaces()
         // Using Euclidean distance to comapare face descriptions
         const distance = faceapi.euclideanDistance(idCardFacedetection, selfieFacedetection);
         document.getElementById("score_comparaison").innerHTML = "Score : " + distance;
-      }
+    }
 }
 
 class FaceWebcamDetector{
@@ -35,7 +35,6 @@ class FaceWebcamDetector{
     faceDescriptor;
     isValidate;
 
-
     detection;
     detectionArray;
     resizedDetections;
@@ -46,7 +45,6 @@ class FaceWebcamDetector{
     selfie;
 
     isNavigatorMobile;
-
 
     constructor(){
         this.loadModels().then(this.captureSelfie.bind(this));
@@ -164,7 +162,6 @@ class FaceWebcamDetector{
 
             let first=true;
             
-
             let interval = setInterval( async () => {
 
                 let object1 = new Map();

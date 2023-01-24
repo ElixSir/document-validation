@@ -431,7 +431,7 @@ function affichageFinal()
     }
   }
   else{
-    console.log("La photo n'est pas valide ❌");
+    console.log("La photo n'est pas valide");
     button_valide.textContent = "La photo n'est pas valide ❌";
   }
   

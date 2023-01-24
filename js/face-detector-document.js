@@ -1,4 +1,3 @@
-// const MODEL_URL = '/sprint2_opencv/models' //model directory
 const MODEL_URL = './models' //model directory
 const SCOREMIN = 0.56;
 let faceIDCardDetector;
@@ -72,8 +71,6 @@ class FaceDocumentDetector{
         if(fullFaceDescriptions && fullFaceDescriptions.length==1){
 
             //this.showIdCardCanvas();
-            
-
 
             //Check la qualité de la détection
             if(fullFaceDescriptions[0].detection._score && fullFaceDescriptions[0].detection._score >= SCOREMIN){
@@ -181,7 +178,3 @@ class FaceDocumentDetector{
     }
 
 }
-
-
-
-

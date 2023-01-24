@@ -20,34 +20,34 @@ async function main() {
     } catch (error) {
         console.error(error);
         console.error("La photo n'est pas valide. Erreur à l'étape de détection des contours.");
-        button_valide.textContent = "La photo n'est pas valide";
+        button_valide.textContent = "La photo n'est pas valide ❌";
     }
     try {
         await checkingParasitingObjects(image_output);
     } catch (error) {
         console.error(error);
         console.error("La photo n'est pas valide. Erreur à l'étape de détection des objets parasites.");
-        button_valide.textContent = "La photo n'est pas valide";
+        button_valide.textContent = "La photo n'est pas valide ❌";
     }
     try {
         scoring()
     } catch (error) {
         console.error(error);
         console.error("La photo n'est pas valide. Erreur à l'étape de scoring.");
-        button_valide.textContent = "La photo n'est pas valide";
+        button_valide.textContent = "La photo n'est pas valide ❌";
     }
     try {
         FaceDocumentDetection();
     } catch (error) {
         console.error(error);
         console.error("La photo n'est pas valide. Erreur à l'étape de détection du visage.");
-        button_valide.textContent = "La photo n'est pas valide";
+        button_valide.textContent = "La photo n'est pas valide ❌";
     }
     try {
         faceComparison();
     } catch (error) {
         console.error(error);
         console.error("La photo n'est pas valide. Erreur à l'étape de comparaison du visage.");
-        button_valide.textContent = "La photo n'est pas valide";
+        button_valide.textContent = "La photo n'est pas valide ❌";
     }
 }

@@ -314,7 +314,5 @@ function findCorners(){
     }
     cv.imshow('canvasOutput12', finalDst);
 
-    return finalDst;
-    
-    
+    return finalDst;   
 }
