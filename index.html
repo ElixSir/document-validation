@@ -148,16 +148,20 @@
     
     <br>
 
-    <label for="estimation-result"> <b>Resultat de l'estimation : </b></label> 
+    <!-- <label for="exec_time-result"> <b>Temps d'exec (ms) : </b></label>  -->
+    <div> Temps d'exec (ms) :</div>
+    <div name="exec_time-result" id="output_exec_time"></div> 
+
+    <br>
+    <br>
+
+    <label for="estimation-result"> <b>Score de la qualité de l'image : </b></label> 
     <div name="estimation-result" id="output_estimation"></div>
+
+    <br>
 
     <label for="qualite-result"> <b>Qualité : </b></label> 
     <div name="qualite-result" id="output_qualite"></div>
-    
-    <label for="exec_time-result"> <b>Temps d'exec (ms) : </b></label> 
-    <div name="exec_time-result" id="output_exec_time"></div>
-
-    <div name="img-uploaded" id="output_upload" style="display: none;"></div>
 
 
     <!-- Face detection -->
@@ -167,14 +171,14 @@
     <div id="face_detection"></div>
     <p id="resultat_face_detection"></p>
     
-    <div style="font-weight: bold;"> Score :</div>
+    <div style="font-weight: bold;"> Score de detection du visage :</div>
     <div id="score"></div>
       
     </div>
 
     <!-- Face comparison -->
 
-    <h2>👨‍💼 Comparaison des visages :</h2>
+    <h2>👥 Comparaison des visages :</h2>
 
     <h3> Comment voulez vous que l'on récupère votre visage ? </h3>
 
@@ -189,8 +193,7 @@
         <canvas id="canvas"></canvas>
     </div>
 
-    <h2 id="resultat_comparaison">👥 Comparaison des visages :</h2>
-    <div style="font-weight: bold;"> Score :</div>
+    <div style="font-weight: bold;"> Score de comparaison :</div>
     <div id="score_comparaison"></div>
 
 
