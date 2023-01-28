@@ -21,16 +21,9 @@ class FaceWebcamDetector {
     idAnimationFrameStream = 0;
 
     constructor() {
-        this.loadModels().then(this.captureSelfie.bind(this));
+        this.captureSelfie();
     };
 
-    async loadModels() {
-        //await faceapi.loadMtcnnModel(MODEL_URL);
-        await faceapi.loadTinyFaceDetectorModel(MODEL_URL);
-        //await faceapi.loadSsdMobilenetv1Model(MODEL_URL);
-        await faceapi.loadFaceLandmarkModel(MODEL_URL); // model to detect face landmark
-        await faceapi.loadFaceRecognitionModel(MODEL_URL);
-    }
 
     async pretrainDetector() {
         const image = new Image();
@@ -97,7 +90,6 @@ class FaceWebcamDetector {
                         }
                         else {
                             alert("Aucune caméra frontale détectée, veuillez déposer un selfie au format JPEG/PNG");
-                            //document.getElementById("input_selfie").style.display ="block";
                         }
                     }.bind(this));
                 

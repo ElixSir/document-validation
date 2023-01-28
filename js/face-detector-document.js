@@ -15,33 +15,23 @@ class FaceDocumentDetector {
         this.img = document.getElementById(img_id); 
         this.canvas = document.getElementById(canvas_id);
         if(input_id == 'default value') {
-
-            this.loadModels().then( () => this.handleFileUpload());
+            this.handleFileUpload()
         }
         else {
             let input = document.getElementById(input_id);
             input.addEventListener('change', this.handleFileUploadInput.bind(this));
-            this.loadModels();
         }
     }
 
     handleFileUpload() {
-        //this.clearCroppedFace();
         this.loadImage(this.img.src).then( () => this.detectFaces());
     }
 
     handleFileUploadInput(event) {
         if(event.target.files.length>0) {
             let file = event.target.files[0];
-            //this.clearCroppedFace();
             this.loadImage(URL.createObjectURL(file)).then( () => this.detectFaces());
         }
-    }
-
-    async loadModels() {
-        await faceapi.loadTinyFaceDetectorModel(MODEL_URL);
-        await faceapi.loadFaceLandmarkModel(MODEL_URL); // model to detect face landmark
-        await faceapi.loadFaceRecognitionModel(MODEL_URL);
     }
 
     async loadImage(url) {

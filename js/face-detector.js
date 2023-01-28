@@ -13,7 +13,9 @@ let faceIDCardDetector
 let faceImageInputDetector;
 
 
-function FaceDocumentDetection() {
+async function FaceDocumentDetection() {
+    await loadModels();
+
     let canvasFinal = document.getElementById('canvasSourceResized');
     let idImage = "image_face_recognition";
     let idCanvas = "canvas_face_recognition";
@@ -30,6 +32,7 @@ function FaceDocumentDetection() {
     document.getElementById(idDiv).appendChild(canvas);
     canvas.hidden = true;
 
+    
     faceIDCardDetector = new FaceDocumentDetector({param1: idImage, param2: idCanvas}, idDiv);
 }
 
@@ -88,4 +91,10 @@ function compareFaces() {
             document.getElementById("final-result").innerHTML = "Utilisateur reconnu sur la photo d'identité ✅";
         }
     }
+}
+
+async function loadModels() {
+    await faceapi.loadTinyFaceDetectorModel(MODEL_URL);
+    await faceapi.loadFaceLandmarkModel(MODEL_URL); // model to detect face landmark
+    await faceapi.loadFaceRecognitionModel(MODEL_URL);
 }
